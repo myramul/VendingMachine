@@ -1,3 +1,6 @@
+#ifndef EVENT_MANAGER_H
+#define EVENT_MANAGER_H
+
 enum class EventType {
     FundsAvailable, 
     DispenseItem,  
@@ -14,3 +17,5 @@ struct EventData{
 class EventManager {
 
 };
+
+#endif

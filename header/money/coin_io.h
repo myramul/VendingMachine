@@ -6,6 +6,4 @@ class CoinIO {
     public:
         void displayCoin(const std::string& name, double value) const;
     };
-
-
 #endif

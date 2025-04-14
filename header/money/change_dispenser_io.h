@@ -5,7 +5,7 @@
 
 class ChangeDispenserIO {
     public:
-        void displayReturnedChange();
+        void displayReturnedChange(double value);
 };
 
 #endif

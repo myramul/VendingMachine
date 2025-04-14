@@ -1,23 +1,30 @@
 #ifndef COIN_SLOT_H
 #define COIN_SLOT_H
 
-#include "coin.h"
-#include "event_manager.h"
+#include "money/coin.h"
+#include "event/event_manager.h"
 #include <vector>
-#include "coin_slot_io.h"
+#include "money/coin_slot_io.h"
 
 class CoinSlot{
     public:
-        CoinSlot(EventManager* eventManager);
+        CoinSlot(EventManager* eventManager, double minimumValue);
         void notifyFundsAvailable();
         void calculateInsertedValue();
+        void startCoinInsertion();
+
+        void addCoin(const Coin& coin);
+        double getTotalInsertedValue() const; 
+        double getMinimumValue() const;     
+    
     private:
         std::vector<Coin> totalInsertedMoney;
         double minimumValue;
         double totalInsertedValue;
         CoinSlotIO io;
+        EventManager* eventManager;
 
-        // EventManager* eventManager;
+        friend class CoinSlotIO;
 };
 
 #endif

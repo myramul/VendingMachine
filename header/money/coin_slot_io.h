@@ -3,10 +3,14 @@
 
 #include <iostream>
 
+class CoinSlot;
 class CoinSlotIO {
     public:
+        CoinSlotIO(CoinSlot* owner);
         void insertCoins();
         void displayTotalinsertedCoins(double totalInsertedValue);
+    private:
+        CoinSlot* coin_slot;
 };
 
 #endif

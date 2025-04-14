@@ -34,4 +34,5 @@ class MoneyHandler {
         MoneyHandler(CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager);
         void setState(MoneyHandlerState state);
 };
+
 #endif
