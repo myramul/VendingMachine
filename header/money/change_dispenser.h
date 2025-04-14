@@ -7,7 +7,7 @@
 #include "change_dispenser_io.h"
 class ChangeDispenser {
     public:
-        //void onGiveChange(EventData data);
+        void onGiveChange(EventData data);
     private:
         std::vector<Coin> change;
         double total_change;
