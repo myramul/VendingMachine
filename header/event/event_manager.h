@@ -2,11 +2,9 @@
 #define EVENT_MANAGER_H
 
 enum class EventType {
-    FundsAvailable, 
-    DispenseItem,  
-    InsufficientFunds,
-    MaintenanceMode,
-    IdleMode,    
+    FundsAvailable,
+    ReturnChange,   
+    MaintenanceMode,  
     TransactionComplete    
 };
 
