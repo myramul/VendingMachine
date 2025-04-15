@@ -30,9 +30,9 @@ class MoneyHandler {
         EventManager* eventManager;
 
         bool enterIdleState(); 
-        bool enterProcessingState(); // called when setState(MoneyHandlerState::Processing)should start coin insertion but first check if there is enough change
+        bool enterProcessingState(); 
         bool enterMaintenanceMode(); 
-        bool isExactChangeRequired() const; // if change is 25c or less return true
+        bool isExactChangeRequired() const; 
 };
 
 #endif

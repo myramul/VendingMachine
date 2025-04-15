@@ -12,7 +12,6 @@ class ChangeDispenser {
         void onGiveChange(EventData data);
         void onResetForNewTransaction();
     private:
-        std::vector<Coin> change;
         double total_change;
         void calculateChange(double totalInsertedValue);
         ChangeDispenserIO io;
@@ -23,9 +22,3 @@ class ChangeDispenser {
 };
 
 #endif
-
-/*
-onGiveChange, it needs to calculate how much change is needed based on event data - inserted amount & beverage cost
-and then check change drawer for potential coins to dispense
-print out the total change returned and then the quantity of each coin
-*/

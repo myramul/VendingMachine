@@ -3,11 +3,11 @@
 
 ChangeDispenser::ChangeDispenser(EventManager* eventManager, ChangeDrawer* changeDrawer) :
     eventManager(eventManager), total_change(0.0), changeDrawer(changeDrawer), io(this) {
-        /*
+        
         // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,
             [this](const EventData& data) {
-                this->resetForNewTransaction();
+                this->onResetForNewTransaction();
             }
         );
 
@@ -17,7 +17,6 @@ ChangeDispenser::ChangeDispenser(EventManager* eventManager, ChangeDrawer* chang
                 this->onGiveChange(data);
             }
         );
-        */
     }
 
 void ChangeDispenser::onGiveChange(EventData data) {
@@ -50,4 +49,8 @@ void ChangeDispenser::calculateChange(double changeAmount) {
             std::cout << "\n\n" << name << ": x" << count << std::endl;
         }
     }
+}
+
+void ChangeDispenser::onResetForNewTransaction() {
+    total_change = 0.0;
 }

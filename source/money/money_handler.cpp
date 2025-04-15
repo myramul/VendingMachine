@@ -8,14 +8,12 @@ changeDrawer(changeDrawer),
 changeDispenser(changeDispenser), 
 eventManager(eventManager), 
 collectedCoin(collectedCoin){
-    /*
      // Register event listeners for transaction completion
      eventManager->registerListener(EventType::TransactionComplete,
         [this](const EventData& data) {
-            this->resetForNewTransaction();
+            this->onResetForNewTransaction();
         }
     );
-    */
 }
 
 void MoneyHandler::setState(MoneyHandlerState newState) {

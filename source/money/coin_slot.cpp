@@ -2,24 +2,24 @@
 
 CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double min) :
     eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(min), totalInsertedValue(0), io(this) {
-        /*
+
         // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,
             [this](const EventData& data) {
                 this->onResetForNewTransaction();
             }
         );
-        */
+    
     }
 
 void CoinSlot::notifyFundsAvailable() {
     std::cout << "FUNDS AVAILABLE" << std::endl;
-    /*
+    
     EventData data;
     data.inserted_amount = totalInsertedValue;
     data.beverage_cost = minimumValue;
     eventManager->notify(EventType::FundsAvailable, data);
-    */
+    
 }
 
 void CoinSlot::calculateInsertedValue() {
