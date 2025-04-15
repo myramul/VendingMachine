@@ -16,7 +16,8 @@ void CoinSlot::notifyFundsAvailable() {
     std::cout << "FUNDS AVAILABLE" << std::endl;
     /*
     EventData data;
-    data.amount = totalInsertedValue;
+    data.inserted_amount = totalInsertedValue;
+    data.beverage_cost = minimumValue;
     eventManager->notify(EventType::FundsAvailable, data);
     */
 }

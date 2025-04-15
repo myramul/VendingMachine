@@ -2,21 +2,26 @@
 
 #ifndef CHANGE_DRAWER_H
 #define CHANGE_DRAWER_H
-#include "coin_storage.h"
-#include "change_drawer_io.h"
+#include "money/coin_storage.h"
+#include "money/change_drawer_io.h"
+#include "event/event_manager.h"
 
 class ChangeDrawer : public CoinStorage{
     public:
-        ChangeDrawer();
+        ChangeDrawer(EventManager* eventManager, std::unordered_map<std::string, int> max_capacity);
+        ChangeDrawer(EventManager* eventManager);
         void onRefllChange();
         double getTotalChange();
-        void add_coin(std::string name, int quantity) override;
-        void remove_coins(std::string name, int quantity) override;
-        int get_coin_count(std::string name) override;
-    private:
         void refill_slot(std::string name, int quantity);
-        std::unordered_map<std::string, int> max_capacity_slot;
+        void displayChangeLevels();
+    private:
+        std::unordered_map<std::string, int> max_capacity_slot = {
+            {"NICKEL", 30},
+            {"DIME", 30},
+            {"QUARTER", 30}
+        };
         ChangeDrawerIO io;
+        EventManager* eventManager;
 };
 
 #endif

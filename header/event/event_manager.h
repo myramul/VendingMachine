@@ -10,7 +10,9 @@ enum class EventType {
 };
 
 struct EventData{
-
+    std::string message;
+    double inserted_amount;
+    double beverage_cost;
 };
 
 class EventManager {

@@ -3,9 +3,14 @@
 
 #include <iostream>
 
+class ChangeDispenser;
+
 class ChangeDispenserIO {
     public:
         void displayReturnedChange(double value);
+        ChangeDispenserIO(ChangeDispenser* owner);
+    private:
+        ChangeDispenser* changeDispenser;
 };
 
 #endif

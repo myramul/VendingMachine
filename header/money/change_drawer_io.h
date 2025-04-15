@@ -3,10 +3,14 @@
 
 #include <iostream>
 
+class ChangeDrawer;
 class ChangeDrawerIO {
     public:
         void inputChangeCoins();
-        void displayChangeLevels(std::unordered_map<std::string, double> levels) const;
+        void displayChangeLevels(std::unordered_map<std::string, int> levels) const;
+        ChangeDrawerIO(ChangeDrawer* owner) : changeDrawer(owner) {}
+    private:
+        ChangeDrawer* changeDrawer;
 };
 
 #endif

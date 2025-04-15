@@ -1,11 +1,14 @@
 #include <iostream>
 #include "money/coin_slot.h" 
 #include "event/event_manager.h"
+#include "money/change_drawer.h"
+#include "money/change_dispenser.h"
 
-// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp -o vending_test
+// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp source/money/collected_coin.cpp source/money/collected_coin_io.cpp source/money/coin_storage.cpp source/money/coin_storage_io.cpp source/money/change_drawer.cpp source/money/change_drawer_io.cpp source/money/change_dispenser.cpp source/money/change_dispenser_io.cpp -std=c++17 -o vending_test
 
 int main(){
     std::cout << "Money Test Driver" << std::endl;
+
 
     // TESTING COIN INSERTION
     EventManager eventManager;
@@ -19,6 +22,25 @@ int main(){
    // coinSlot.startCoinInsertion();
 
    // TESTING MONEY COLLECTION
-   collectedCoin.onCollectMoney();
+   // collectedCoin.onCollectMoney();
+
+
+   // TESTING CHANGE DRAWER AND CHANGE DISPENSER
+
+   ChangeDrawer changeDrawer(&eventManager);
+   ChangeDispenser changeDispenser(&eventManager, &changeDrawer);
+
+   EventData data;
+   data.inserted_amount = 1.10;
+   data.beverage_cost = 1.00;
+
+   std::cout << "\nCHANGE BEFORE" << std::endl;
+   changeDrawer.displayChangeLevels();
+   changeDispenser.onGiveChange(data);
+
+   std::cout << "\nCHANGE AFTER" << std::endl;
+   changeDrawer.displayChangeLevels();
+
+
     return 0;
 }
