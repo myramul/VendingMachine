@@ -3,12 +3,12 @@
 
 #include <vector>
 #include <string>
-#include "coin.h"
-#include "event_manager.h"
-#include "coin_slot.h"
-#include "change_drawer.h"
-#include "change_dispenser.h"
-#include "collected_coin.h"
+#include "money/coin.h"
+#include "event/event_manager.h"
+#include "money/coin_slot.h"
+#include "money/change_drawer.h"
+#include "money/change_dispenser.h"
+#include "money/collected_coin.h"
 
 enum class MoneyHandlerState {
     Idle,
