@@ -2,6 +2,7 @@
 // change_drawer_io.cpp
 #include "money/change_drawer_io.h"
 #include "money/change_drawer.h"
+#include <iomanip>
 
 void ChangeDrawerIO::inputChangeCoins() {
     std::string name;
@@ -24,5 +25,6 @@ void ChangeDrawerIO::displayChangeLevels(std::unordered_map<std::string, int> le
     for (const auto& [coin, amount] : levels) {
         std::cout << " - " << coin << ": x" << amount << std::endl;
     }
+    std::cout << "Total Change: $" << std::fixed << std::setprecision(2) << changeDrawer->getTotalChange() << std::endl;
 }
 

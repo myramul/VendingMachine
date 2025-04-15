@@ -3,6 +3,7 @@
 #include "money/coin_slot_io.h"
 #include "money/coin_slot.h"
 #include "money/coin.h"
+#include <iomanip>
 
 CoinSlotIO::CoinSlotIO(CoinSlot* owner) : coin_slot(owner) {}
 void CoinSlotIO::insertCoins() {
@@ -22,7 +23,7 @@ void CoinSlotIO::insertCoins() {
             std::cout << "Coin not accepted. Returning " << input << "." << std::endl;
         }
 
-        std::cout << "Current inserted: $" << coin_slot->getTotalInsertedValue() << std::endl;
+        std::cout << "Current inserted: $" << std::fixed << std::setprecision(2) << coin_slot->getTotalInsertedValue() << std::endl;
     }
 
     coin_slot->notifyFundsAvailable();
