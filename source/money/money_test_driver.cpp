@@ -4,11 +4,10 @@
 #include "money/change_drawer.h"
 #include "money/change_dispenser.h"
 
-// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp source/money/collected_coin.cpp source/money/collected_coin_io.cpp source/money/coin_storage.cpp source/money/coin_storage_io.cpp source/money/change_drawer.cpp source/money/change_drawer_io.cpp source/money/change_dispenser.cpp source/money/change_dispenser_io.cpp -std=c++17 -o vending_test
+// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp source/money/collected_coin.cpp source/money/collected_coin_io.cpp source/money/coin_storage.cpp source/money/coin_storage_io.cpp source/money/change_drawer.cpp source/money/change_drawer_io.cpp source/money/change_dispenser.cpp source/money/change_dispenser_io.cpp source/event/event_manager.cpp -std=c++17 -o money_test
 
 int main(){
     std::cout << "Money Test Driver" << std::endl;
-
 
     // TESTING COIN INSERTION
     EventManager eventManager;
@@ -19,8 +18,9 @@ int main(){
     };
     CollectedCoin collectedCoin(coin_storage, &eventManager);
     CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00);
-   // coinSlot.startCoinInsertion();
+    // coinSlot.startCoinInsertion();
 
+    
    // TESTING MONEY COLLECTION
    // collectedCoin.onCollectMoney();
 
@@ -36,10 +36,12 @@ int main(){
 
    std::cout << "\nCHANGE BEFORE" << std::endl;
    changeDrawer.displayChangeLevels();
+   
    changeDispenser.onGiveChange(data);
 
    std::cout << "\nCHANGE AFTER" << std::endl;
    changeDrawer.displayChangeLevels();
+   
 
 
     return 0;

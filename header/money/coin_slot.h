@@ -9,7 +9,7 @@
 
 class CoinSlot{
     public:
-        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double minimumValue);
+        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost);
         void notifyFundsAvailable();
         void calculateInsertedValue();
         void startCoinInsertion();

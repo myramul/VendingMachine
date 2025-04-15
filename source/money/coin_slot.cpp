@@ -1,7 +1,7 @@
 #include "money/coin_slot.h"
 
-CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double min) :
-    eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(min), totalInsertedValue(0), io(this) {
+CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost) :
+    eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(beverageCost), totalInsertedValue(0), io(this) {
 
         // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,
@@ -9,8 +9,7 @@ CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, dou
                 this->onResetForNewTransaction();
             }
         );
-    
-    }
+}
 
 void CoinSlot::notifyFundsAvailable() {
     std::cout << "FUNDS AVAILABLE" << std::endl;
@@ -19,7 +18,6 @@ void CoinSlot::notifyFundsAvailable() {
     data.inserted_amount = totalInsertedValue;
     data.beverage_cost = minimumValue;
     eventManager->notify(EventType::FundsAvailable, data);
-    
 }
 
 void CoinSlot::calculateInsertedValue() {

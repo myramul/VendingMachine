@@ -31,7 +31,7 @@ void ChangeDispenser::onGiveChange(EventData data) {
 
     calculateChange(changeAmount);
     io.displayReturnedChange(changeAmount);
-    //EventManager->notify(EventType::TransactionComplete, data);
+    eventManager->notify(EventType::TransactionComplete, data);
 }
 
 void ChangeDispenser::calculateChange(double changeAmount) {
