@@ -23,13 +23,9 @@ struct EventData {
 
 class EventManager {
 public:
-
     void registerListener(EventType eventType, std::function<void(const EventData&)> callback);
-
     void notify(EventType eventType, const EventData &data);
-
 private:
-
     std::unordered_map<EventType, std::vector<std::function<void(const EventData&)>>> listeners;
 };
 
