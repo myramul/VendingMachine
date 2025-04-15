@@ -1,0 +1,14 @@
+#include <iostream>
+#include <stdexcept>
+#include <map>
+#include <vector>
+
+#include "event_manager.h"
+#include "report_manager.h"
+
+void testEventManager()
+{
+  std::cout << " ===Testing EventManager=== " << std::endl;
+  
+
+}
