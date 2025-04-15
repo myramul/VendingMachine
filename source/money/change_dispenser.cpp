@@ -2,7 +2,23 @@
 #include "money/change_dispenser.h"
 
 ChangeDispenser::ChangeDispenser(EventManager* eventManager, ChangeDrawer* changeDrawer) :
-    eventManager(eventManager), total_change(0.0), changeDrawer(changeDrawer), io(this) {}
+    eventManager(eventManager), total_change(0.0), changeDrawer(changeDrawer), io(this) {
+        /*
+        // Register event listeners for transaction completion
+        eventManager->registerListener(EventType::TransactionComplete,
+            [this](const EventData& data) {
+                this->resetForNewTransaction();
+            }
+        );
+
+        // register event for BeverageDispened
+        eventManager->registerListener(EventType::BeverageDispensed,
+            [this](const EventData& data) {
+                this->onGiveChange(data);
+            }
+        );
+        */
+    }
 
 void ChangeDispenser::onGiveChange(EventData data) {
     double inserted = data.inserted_amount;
@@ -16,6 +32,7 @@ void ChangeDispenser::onGiveChange(EventData data) {
 
     calculateChange(changeAmount);
     io.displayReturnedChange(changeAmount);
+    //EventManager->notify(EventType::TransactionComplete, data);
 }
 
 void ChangeDispenser::calculateChange(double changeAmount) {

@@ -6,7 +6,7 @@ CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, dou
         // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,
             [this](const EventData& data) {
-                this->resetForNewTransaction();
+                this->onResetForNewTransaction();
             }
         );
         */
@@ -52,7 +52,7 @@ void CoinSlot::addMoneyToCollection(){
     }
 }
 
-void CoinSlot::resetForNewTransaction(){
+void CoinSlot::onResetForNewTransaction(){
     addMoneyToCollection();
     totalInsertedMoney.clear();
     totalInsertedValue = 0;

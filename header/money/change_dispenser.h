@@ -10,6 +10,7 @@ class ChangeDispenser {
     public:
         ChangeDispenser(EventManager* eventManager, ChangeDrawer* changeDrawer);
         void onGiveChange(EventData data);
+        void onResetForNewTransaction();
     private:
         std::vector<Coin> change;
         double total_change;

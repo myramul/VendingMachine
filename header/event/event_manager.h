@@ -3,7 +3,7 @@
 
 enum class EventType {
     FundsAvailable,
-    ReturnChange,   
+    BeverageDispensed,   
     MaintenanceMode,
     Idle,  
     TransactionComplete    

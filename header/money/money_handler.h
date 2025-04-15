@@ -16,6 +16,10 @@ enum class MoneyHandlerState {
     Maintenance
 };
 class MoneyHandler {
+    public:
+        MoneyHandler(CollectedCoin* collectedCoin, CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager);
+        void setState(MoneyHandlerState state);
+        void onResetForNewTransaction();
     private:
         CoinSlot* coinSlot;
         ChangeDrawer* changeDrawer;
@@ -25,14 +29,10 @@ class MoneyHandler {
         MoneyHandlerState state;
         EventManager* eventManager;
 
-        bool enterIdleState();
-        bool enterProcessingState();
-        bool enterMaintenanceMode();
-        bool checkChangeLevels() const;
-        bool isExactChangeRequired() const;
-    public:
-        MoneyHandler(CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager);
-        void setState(MoneyHandlerState state);
+        bool enterIdleState(); 
+        bool enterProcessingState(); // called when setState(MoneyHandlerState::Processing)should start coin insertion but first check if there is enough change
+        bool enterMaintenanceMode(); 
+        bool isExactChangeRequired() const; // if change is 25c or less return true
 };
 
 #endif

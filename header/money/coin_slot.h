@@ -16,7 +16,7 @@ class CoinSlot{
         void addCoin(const Coin& coin);
         double getTotalInsertedValue() const; 
         double getMinimumValue() const;
-        void resetForNewTransaction();     
+        void onResetForNewTransaction();     
     
     private:
         std::vector<Coin> totalInsertedMoney;
