@@ -4,7 +4,8 @@
 enum class EventType {
     FundsAvailable,
     ReturnChange,   
-    MaintenanceMode,  
+    MaintenanceMode,
+    Idle,  
     TransactionComplete    
 };
 
