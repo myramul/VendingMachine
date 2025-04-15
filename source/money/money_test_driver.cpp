@@ -26,23 +26,32 @@ int main(){
 
 
    // TESTING CHANGE DRAWER AND CHANGE DISPENSER
-
+    /*
    ChangeDrawer changeDrawer(&eventManager);
    ChangeDispenser changeDispenser(&eventManager, &changeDrawer);
 
    EventData data;
-   data.inserted_amount = 1.10;
-   data.beverage_cost = 1.00;
+   data.inserted_amount = 2.00;
+   data.beverage_cost = 1.05;
 
    std::cout << "\nCHANGE BEFORE" << std::endl;
    changeDrawer.displayChangeLevels();
-   
-   changeDispenser.onGiveChange(data);
+
+   //changeDispenser.onGiveChange(data);
 
    std::cout << "\nCHANGE AFTER" << std::endl;
    changeDrawer.displayChangeLevels();
-   
+   */
 
+   // TESTING CHANGE DRAWER CHANGE INSERTION MAIINTENANCE
+   std::unordered_map<std::string, int> max_capacity{
+    {"NICKEL", 30},
+    {"DIME", 30},
+    {"QUARTER", 30}
+};
+ChangeDrawer changeDrawer2(&eventManager, max_capacity);
+changeDrawer2.displayChangeLevels();
+changeDrawer2.onRefillChange();
 
     return 0;
 }

@@ -12,14 +12,26 @@ double ChangeDrawer::getTotalChange() {
     return calculate_total_value();
 }
 
-void ChangeDrawer::onRefllChange() {
+void ChangeDrawer::onRefillChange() {
+    std::cout << "REFILL CHANGE DRAWER" << std::endl;
     std::string name;
     int quantity;
-    std::cout << "Enter coin name (NICKEL, DIME, QUARTER): ";
-    std::cin >> name;
-    std::cout << "Enter quantity to add: ";
-    std::cin >> quantity;
-    refill_slot(name, quantity);
+    while (true) {
+        std::cout << "Enter coin name (NICKEL, DIME, QUARTER) or 'X' to finish: ";
+        std::cin >> name;
+        if (name == "X" || name == "x") {
+            break;
+        }
+        std::cout << "Enter quantity to add: ";
+        std::cin >> quantity;
+        Coin coin(name);
+        if (coin.isValidCoin(name)) {
+            refill_slot(coin.getName(), quantity);
+        }else{
+            std::cout << "Invalid coin name." << std::endl;
+        }
+    }
+    displayChangeLevels();
 }
 
 void ChangeDrawer::refill_slot(std::string name, int quantity) {
@@ -28,6 +40,9 @@ void ChangeDrawer::refill_slot(std::string name, int quantity) {
     int to_add = std::min(quantity, max - current);
     coin_storage[name] += to_add;
     std::cout << "Added " << to_add << " " << name << "s to change drawer.\n";
+    if (quantity + current > max) {
+        std::cout << "Warning: Change drawer is full for " << name << "s.\n" << "Returning " << quantity - to_add << " " << name << "s.\n";
+    }
 }
 
 void ChangeDrawer::displayChangeLevels() {

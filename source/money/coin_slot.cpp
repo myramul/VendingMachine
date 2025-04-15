@@ -54,5 +54,5 @@ void CoinSlot::onResetForNewTransaction(){
     addMoneyToCollection();
     totalInsertedMoney.clear();
     totalInsertedValue = 0;
-    std::cout << "Coin slot for new transaction." << std::endl;
+    std::cout << "Coin slot reset for new transaction." << std::endl;
 }

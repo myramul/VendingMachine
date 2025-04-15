@@ -10,7 +10,7 @@ class ChangeDrawer : public CoinStorage{
     public:
         ChangeDrawer(EventManager* eventManager, std::unordered_map<std::string, int> max_capacity);
         ChangeDrawer(EventManager* eventManager);
-        void onRefllChange();
+        void onRefillChange();
         double getTotalChange();
         void refill_slot(std::string name, int quantity);
         void displayChangeLevels();

@@ -6,9 +6,9 @@
 #include <iostream>  
 
 const std::unordered_map<std::string, double> Coin::coin_values = {
-    {"NICKEL", 0.05}, 
+    {"QUARTER", 0.25},
     {"DIME", 0.10}, 
-    {"QUARTER", 0.25}
+    {"NICKEL", 0.05}
 };
 
 Coin::Coin(std::string name) : name(name) {

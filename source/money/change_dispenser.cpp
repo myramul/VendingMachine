@@ -53,4 +53,5 @@ void ChangeDispenser::calculateChange(double changeAmount) {
 
 void ChangeDispenser::onResetForNewTransaction() {
     total_change = 0.0;
+    std::cout << "Change dispenser reset for new transaction." << std::endl; 
 }
