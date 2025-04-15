@@ -5,17 +5,18 @@
 #include "event/event_manager.h"
 #include <vector>
 #include "money/coin_slot_io.h"
+#include "money/collected_coin.h"
 
 class CoinSlot{
     public:
-        CoinSlot(EventManager* eventManager, double minimumValue);
+        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double minimumValue);
         void notifyFundsAvailable();
         void calculateInsertedValue();
         void startCoinInsertion();
-
         void addCoin(const Coin& coin);
         double getTotalInsertedValue() const; 
-        double getMinimumValue() const;     
+        double getMinimumValue() const;
+        void resetForNewTransaction();     
     
     private:
         std::vector<Coin> totalInsertedMoney;
@@ -23,8 +24,10 @@ class CoinSlot{
         double totalInsertedValue;
         CoinSlotIO io;
         EventManager* eventManager;
+        CollectedCoin* collectedCoin;
 
         friend class CoinSlotIO;
+        void addMoneyToCollection();
 };
 
 #endif

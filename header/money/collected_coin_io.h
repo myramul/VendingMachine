@@ -3,9 +3,13 @@
 
 #include <iostream>
 
+class CollectedCoin;
 class CollectedCoinIO {
 public:
-    void displayCollectedMoney(double value);
+    void displayCollectedMoney(double value, std::unordered_map<std::string, int> coins);
+    CollectedCoinIO(CollectedCoin* owner);
+private:
+    CollectedCoin* collectedCoin;
 };
 
 #endif

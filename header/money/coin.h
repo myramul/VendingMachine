@@ -14,6 +14,7 @@ class Coin{
         Coin(std::string name);
         bool isValidCoin(std::string name);
         double getNumericalValue();
+        std::string getName();
     private:
         const static std::unordered_map<std::string, double> coin_values;
         double numerical_value;

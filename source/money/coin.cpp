@@ -29,3 +29,7 @@ bool Coin::isValidCoin(std::string name) {
 double Coin::getNumericalValue() {
     return numerical_value;
 }
+
+std::string Coin::getName() {
+    return name;
+}

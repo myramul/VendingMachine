@@ -9,7 +9,16 @@ int main(){
 
     // TESTING COIN INSERTION
     EventManager eventManager;
-    CoinSlot coinSlot(&eventManager, 1.00);
-    coinSlot.startCoinInsertion();
+    std::unordered_map<std::string, int> coin_storage{
+        {"NICKEL", 15},
+        {"DIME", 20},
+        {"QUARTER", 12}
+    };
+    CollectedCoin collectedCoin(coin_storage, &eventManager);
+    CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00);
+   // coinSlot.startCoinInsertion();
+
+   // TESTING MONEY COLLECTION
+   collectedCoin.onCollectMoney();
     return 0;
 }
