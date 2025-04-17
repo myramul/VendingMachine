@@ -6,14 +6,19 @@
 #include "dispenser/slot.h"
 #include "dispenser/beverage.h"
 #include "dispenser/dispenser_container_io.h"
+#include "event/event_manager.h"
 
-class EventManager; // Forward declaration
+enum class DispenserState {
+    Idle,
+    Processing,
+    Maintenance
+}; // MAKE CHANGES TO IMPLEMENTATION BASED ON THIS . STATE IS NOT A STRING
 
 class DispenserContainer {
 private:
     std::vector<Slot> storage;
     std::string bin;
-    std::string state;
+    DispenserState state;
     Beverage selectedBeverage;
     EventManager* eventManager;
     DispenserContainerIO* io;
@@ -24,8 +29,8 @@ public:
     void selectBeverage();
     void dispenseBeverage(const Beverage& beverage);
     void onRefillBeverages();
-    void setState(const std::string& newState);
-    void onSufficientFunds();
+    void setState(DispenserState newState);  
+    void onSufficientFunds(EventData data);
     void notifyGiveChange();
 
     bool enterMaintenanceMode();

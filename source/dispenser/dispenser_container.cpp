@@ -2,7 +2,11 @@
 #include <iostream>
 
 DispenserContainer::DispenserContainer(EventManager* manager, DispenserContainerIO* ioPtr)
-    : bin("MainBin"), state("Idle"), eventManager(manager), io(ioPtr) {}
+    : bin("MainBin"), state("Idle"), eventManager(manager), io(ioPtr) {
+        // ADD EVENT MANAGER REGISTER LISTENERS LOGIC HERE
+        // LOOK AT THE COIN SLOT AND CHANGE DISPENSER AS AN EXAMPLE
+        // AND ALSO LOOK AT THE LOGIC OF THE EVENT MANAGER
+    }
 
 void DispenserContainer::selectBeverage() {
     io->displayMenu();
@@ -13,38 +17,46 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
     std::cout << "Dispensing " << beverage.getName() << "...\n";
     selectedBeverage = beverage;
     io->displayDispensedBeverage();
+    notifyGiveChange(); // MAKING CALL TO EVENT MANAGER THAT BEV HAS BEEN DISPENSED
 }
 
 void DispenserContainer::onRefillBeverages() {
-    setState("Filling");
+    setState("Filling"); // NOT a string
     io->inputRefillBeverages();
-    setState("Idle");
+    setState("Idle"); // not a string
 }
 
-void DispenserContainer::setState(const std::string& newState) {
+void DispenserContainer::setState(DispenserState newState) {
     state = newState;
 }
 
-void DispenserContainer::onSufficientFunds() {
-    std::cout << "Payment accepted.\n";
+void DispenserContainer::onSufficientFunds(EventData data) {
+    // ADD IN LOGIC HERE TO BEGIN BEVERAGE SELECTION and PROCESSING
+    // YOU MIGHT HAVE TO STORE THE INSERTED AMOUNT (data.inserted_amount) IN A VARIABLE 
+    // AND THEN PASS IT BACK TO THE EVENT MANAGER WHEN GIVING CHANGE
 }
 
+
 void DispenserContainer::notifyGiveChange() {
-    std::cout << "Please take your change.\n";
+    // MAKE CALL TO EVENT MANAGER, WITH THE MONEY PUT IN AND THE BEVERAGE COST
+    EventData data;
+   // data.inserted_amount = ; ADD IN THE CORRECT VALUES
+   // data.beverage_cost = ; ADD IN THE CORRECT VALUES
+    eventManager->notify(EventType::BeverageDispensed, data);
 }
 
 bool DispenserContainer::enterMaintenanceMode() {
-    setState("Maintenance");
+    setState("Maintenance"); // NOT A STRING
     return true;
 }
 
 bool DispenserContainer::enterProcessingMode() {
-    setState("Processing");
+    setState("Processing"); // NOT A STRING
     return true;
 }
 
 bool DispenserContainer::enterIdleMode() {
-    setState("Idle");
+    setState("Idle"); // NOT A STRING
     return true;
 }
 
@@ -57,5 +69,5 @@ void DispenserContainer::collectItem() {
 }
 
 std::string DispenserContainer::getState() const {
-    return state;
+    return state; // NOT A STRING
 }
