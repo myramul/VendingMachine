@@ -1,27 +1,13 @@
-// Class implemantion
+#include "Beverage.h"
 
+Beverage::Beverage() : beverageName("Unnamed Beverage") {}
 
-#include "beverage.h"
+Beverage::Beverage(const std::string& name) : beverageName(name) {}
 
-
-// Default constructor 
-
-Beverage::Beverage() {
-	// Initialize the beverage name to an empty string
-	beverageName = "";
+void Beverage::setName(const std::string& name) {
+    beverageName = name;
 }
 
-Beverage::Beverage(const string name) {
-	// Initialize the beverage name with the provided name
-	beverageName = name;
-}
-
-void Beverage::setName(string name) {
-	// Set the beverage name to the provided name
-	beverageName = name;
-}
-
-string Beverage::getName() const {
-	// Return the beverage name
-	return beverageName;
+std::string Beverage::getName() const {
+    return beverageName;
 }
