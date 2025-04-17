@@ -1,13 +1,19 @@
 #include "vending machine/vending_machine.h"
 #include <iostream>
 
-VendingMachine::VendingMachine(const std::string& password)
-    : maintenancePassword(password), state("Idle") {
-    eventManager = new EventManager();
-    moneyComponent = new MoneyHandler(eventManager);
-    dispenserComponent = new DispenserContainer(eventManager);
-    reportManager = new ReportManager();
-
+VendingMachine::VendingMachine(
+    const std::string& password,
+    EventManager* em,
+    MoneyHandler* mh,
+    DispenserContainer* dc,
+    ReportManager* rm)
+    : maintenancePassword(password),
+      state("Idle"),
+      eventManager(em),
+      moneyComponent(mh),
+      dispenserComponent(dc),
+      reportManager(rm)
+{
     // add in logic to register event listeners here look at coin slot and change dispenser as examples
     // this should listen to transaction complete and the callback should be onTransactionComplete
 
