@@ -1,4 +1,4 @@
-#include "vending machine/vending_machine_io.h"
+#include "vending_machine/vending_machine_io.h"
 #include <iostream>
 
 void VendingMachineIO::displayWelcomeMessage() {

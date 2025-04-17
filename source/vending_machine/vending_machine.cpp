@@ -1,4 +1,4 @@
-#include "vending machine/vending_machine.h"
+#include "vending_machine/vending_machine.h"
 #include <iostream>
 
 VendingMachine::VendingMachine(

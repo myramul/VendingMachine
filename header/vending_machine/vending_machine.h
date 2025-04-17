@@ -6,7 +6,7 @@
 #include "money/money_handler.h"
 #include "event/event_manager.h"
 #include "report/report_manager.h"
-#include "vending machine/vending_machine_io.h"
+#include "vending_machine/vending_machine_io.h"
 
 enum class VendingMachineState { // state as string is error proine, make changes using this instead, use money handler as examaple
     Idle,
