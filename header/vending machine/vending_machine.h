@@ -8,17 +8,22 @@
 #include "report/report_manager.h"
 #include "vending machine/vending_machine_io.h"
 
+enum class VendingMachineState { // state as string is error proine, make changes using this instead, use money handler as examaple
+    Idle,
+    Processing,
+    Maintenance
+};
 class VendingMachine {
 private:
     DispenserContainer* dispenserComponent;
     MoneyHandler* moneyComponent;
     EventManager* eventManager;
     ReportManager* reportManager;
-    std::string state; // "Idle", "Maintenance", "Processing"
+    VendingMachineState state; // "Idle", "Maintenance", "Processing"
     std::string maintenancePassword;
 
 public:
-    VendingMachine(const std::string& password);
+    VendingMachine(const std::string& password); // use dependency injection: should take in moeny, dispenser, and event, and report as params, 
 
     void setState(const std::string& newState);
     void enterMaintenanceMode();

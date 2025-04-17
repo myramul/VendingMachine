@@ -7,7 +7,12 @@ VendingMachine::VendingMachine(const std::string& password)
     moneyComponent = new MoneyHandler(eventManager);
     dispenserComponent = new DispenserContainer(eventManager);
     reportManager = new ReportManager();
+
+    // add in logic to register event listeners here look at coin slot and change dispenser as examples
+    // this should listen to transaction complete and the callback should be onTransactionComplete
+
 }
+
 
 void VendingMachine::setState(const std::string& newState) {
     state = newState;
@@ -16,6 +21,8 @@ void VendingMachine::setState(const std::string& newState) {
 void VendingMachine::enterMaintenanceMode() {
     setState("Maintenance");
     std::cout << "Machine is now in maintenance mode.\n";
+    // SHOULD SEND A FLAG TO THE EVENT MANAGER TO INDICATE THAT THE MACHINE IS IN MAINTENANCE
+    // using the evnt manager notify function, look at the event manager h file for details
 }
 
 bool VendingMachine::unlockMachine(const std::string& inputPassword) {
@@ -35,9 +42,12 @@ void VendingMachine::enterIdleMode() {
 void VendingMachine::enterProcessingMode() {
     setState("Processing");
     std::cout << "Entering processing mode.\n";
+    // should call the moeny to start accepting coins and send a flag to the event manager processing
 }
 
 void VendingMachine::initializeMachine() {
+    // THIS SHOULD BE THE FUNCTION THAT INTIALIZES THE MACHIEN THE FIRST TIME
+    // SO IT SHOW THE MAINTENANCE MENU
     enterIdleMode();
     std::cout << "Vending machine initialized.\n";
 }

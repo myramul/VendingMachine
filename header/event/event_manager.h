@@ -7,6 +7,7 @@
 #include <string>
 
 enum class EventType {
+    StartCoinAccepting,
     FundsAvailable,
     BeverageDispensed,   
     MaintenanceMode,
