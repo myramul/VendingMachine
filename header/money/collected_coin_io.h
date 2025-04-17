@@ -1,3 +1,5 @@
+// collected_coin_io.h
+
 #ifndef COLLECTED_COIN_IO_H
 #define COLLECTED_COIN_IO_H
 

@@ -19,6 +19,11 @@ collectedCoin(collectedCoin){
         [this](const EventData& data) {
             this->setState(MoneyHandlerState::Processing);
     });
+
+    eventManager->registerListener(EventType::MaintenanceMode, 
+    [this](const EventData& data){
+        this->setState(MoneyHandlerState::Maintenance);
+    });
 }
 
 void MoneyHandler::setState(MoneyHandlerState newState) {

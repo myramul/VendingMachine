@@ -1,3 +1,5 @@
+// coin storage h
+
 #ifndef COIN_STORAGE_H
 #define COIN_STORAGE_H
 

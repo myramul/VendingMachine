@@ -1,3 +1,5 @@
+// coin_slot_io.h
+
 #ifndef COIN_SLOT_IO_H
 #define COIN_SLOT_IO_H
 

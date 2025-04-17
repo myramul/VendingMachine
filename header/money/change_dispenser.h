@@ -1,3 +1,5 @@
+// Change Dispenser H file
+
 #ifndef CHANGE_DISPENSER_H
 #define CHANGE_DISPENSER_H
 

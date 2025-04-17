@@ -1,3 +1,5 @@
+// coin slot cpp
+
 #include "money/coin_slot.h"
 
 CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost) :

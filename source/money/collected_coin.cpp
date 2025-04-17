@@ -1,3 +1,5 @@
+// collected coin cpp
+
 #include "money/collected_coin.h"
 #include "money/collected_coin_io.h"
 #include <iostream>

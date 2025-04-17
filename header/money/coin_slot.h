@@ -1,3 +1,4 @@
+// coin slot h
 #ifndef COIN_SLOT_H
 #define COIN_SLOT_H
 

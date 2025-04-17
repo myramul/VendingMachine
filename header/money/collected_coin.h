@@ -1,3 +1,5 @@
+// collected_coin.h
+
 #ifndef COLLECTED_COIN_H
 #define COLLECTED_COIN_H
 
