@@ -2,11 +2,12 @@
 #define BEVERAGE_IO_H
 
 #include "Beverage.h"
+#include <iostream>
 
 class BeverageIO {
 public:
-    virtual void displayBeverage(const Beverage& beverage) = 0;
-    virtual ~BeverageIO() = default;
+    void displayBeverage(const Beverage& beverage);
 };
 
 #endif // BEVERAGE_IO_H
+
