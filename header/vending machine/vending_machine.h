@@ -6,7 +6,7 @@
 #include "money/money_handler.h"
 #include "event/event_manager.h"
 #include "report/report_manager.h"
-#include "vending machine/vendingmachine_io.h"
+#include "vending machine/vending_machine_io.h"
 
 class VendingMachine {
 private:
