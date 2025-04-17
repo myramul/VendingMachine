@@ -1,7 +1,7 @@
 #ifndef BEVERAGE_IO_H
 #define BEVERAGE_IO_H
 
-#include "Beverage.h"
+#include "dispenser/beverage.h"
 #include <iostream>
 
 class BeverageIO {

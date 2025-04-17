@@ -1,4 +1,4 @@
-#include "SlotIO.h"
+#include "dispenser/slot_io.h"
 
 void SlotIO::displaySlot(const Slot& slot) {
     std::cout << "Slot ID: " << slot.getID() << std::endl;

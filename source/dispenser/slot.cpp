@@ -1,4 +1,4 @@
-#include "Slot.h"
+#include "dispenser/slot.h"
 
 Slot::Slot(int id, double price, int capacity)
     : slotID(id), price(price), state("Inactive"), maxCapacity(capacity) {}

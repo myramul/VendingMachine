@@ -1,7 +1,7 @@
 #ifndef SLOT_IO_H
 #define SLOT_IO_H
 
-#include "Slot.h"
+#include "dispenser/slot.h"
 #include <iostream>
 
 class SlotIO {

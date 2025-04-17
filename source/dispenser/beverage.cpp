@@ -1,4 +1,4 @@
-#include "Beverage.h"
+#include "dispenser/beverage.h"
 
 Beverage::Beverage() : beverageName("Unnamed Beverage") {}
 

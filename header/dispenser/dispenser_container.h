@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <string>
-#include "Slot.h"
-#include "Beverage.h"
-#include "DispenserContainerIO.h"
+#include "dispenser/slot.h"
+#include "dispenser/beverage.h"
+#include "dispenser/dispenser_container_io.h"
 
 class EventManager; // Forward declaration
 

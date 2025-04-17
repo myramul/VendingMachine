@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Beverage.h"
+#include "dispenser/beverage.h"
 
 class Slot {
 private:
