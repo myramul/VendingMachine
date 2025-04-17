@@ -20,18 +20,25 @@ ChangeDispenser::ChangeDispenser(EventManager* eventManager, ChangeDrawer* chang
     }
 
 void ChangeDispenser::onGiveChange(EventData data) {
-    double inserted = data.inserted_amount;
-    double cost = data.beverage_cost;
-    double changeAmount = inserted - cost;
-
-    if (changeAmount < 0.005) {
+    if (changeDrawer->getTotalChange() <= 0.20) {
         io.displayReturnedChange(0.0);
+        eventManager->notify(EventType::TransactionComplete, data);
         return;
-    }
+    }else{
+        double inserted = data.inserted_amount;
+        double cost = data.beverage_cost;
+        double changeAmount = inserted - cost;
 
-    calculateChange(changeAmount);
-    io.displayReturnedChange(changeAmount);
-    eventManager->notify(EventType::TransactionComplete, data);
+        if (changeAmount < 0.005) {
+            io.displayReturnedChange(0.0);
+            eventManager->notify(EventType::TransactionComplete, data);
+            return;
+        }
+
+        calculateChange(changeAmount);
+        io.displayReturnedChange(changeAmount);
+        eventManager->notify(EventType::TransactionComplete, data);
+    }
 }
 
 void ChangeDispenser::calculateChange(double changeAmount) {

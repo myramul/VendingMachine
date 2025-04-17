@@ -14,6 +14,11 @@ collectedCoin(collectedCoin){
             this->onResetForNewTransaction();
         }
     );
+
+    eventManager->registerListener(EventType::StartCoinAccepting, 
+        [this](const EventData& data) {
+            this->setState(MoneyHandlerState::Processing);
+    });
 }
 
 void MoneyHandler::setState(MoneyHandlerState newState) {
@@ -37,36 +42,35 @@ void MoneyHandler::setState(MoneyHandlerState newState) {
 }
 
 bool MoneyHandler::enterIdleState() {
-    std::cout << "[MoneyHandler] Entering Idle State.\n";
+    // std::cout << "[MoneyHandler] Entering Idle State.\n";
     exactChangeMode = isExactChangeRequired();
     return true;
 }
 
 bool MoneyHandler::enterProcessingState() {
-    std::cout << "[MoneyHandler] Entering Processing State.\n";
+   // std::cout << "[MoneyHandler] Entering Processing State.\n";
 
     if (isExactChangeRequired()) {
-        std::cout << "Exact change required. Not enough change in the drawer.\n";
         exactChangeMode = true;
     } else {
         exactChangeMode = false;
     }
 
     // Start coin insertion
-    coinSlot->startCoinInsertion();
+    coinSlot->startCoinInsertion(exactChangeMode);
     return true;
 }
 
 bool MoneyHandler::enterMaintenanceMode() {
-    std::cout << "[MoneyHandler] Entering Maintenance Mode.\n";
+    // std::cout << "[MoneyHandler] Entering Maintenance Mode.\n";
     return true;
 }
 
 bool MoneyHandler::isExactChangeRequired() const {
-    return changeDrawer->getTotalChange() <= 0.25;
+    return changeDrawer->getTotalChange() <= 0.20;
 }
 
 void MoneyHandler::onResetForNewTransaction() {
-    std::cout << "[MoneyHandler] Resetting for new transaction.\n";
+    // std::cout << "[MoneyHandler] Resetting for new transaction.\n";
     setState(MoneyHandlerState::Idle);
 }

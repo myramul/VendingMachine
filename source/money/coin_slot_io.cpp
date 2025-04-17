@@ -6,7 +6,10 @@
 #include <iomanip>
 
 CoinSlotIO::CoinSlotIO(CoinSlot* owner) : coin_slot(owner) {}
-void CoinSlotIO::insertCoins() {
+void CoinSlotIO::insertCoins(bool exactChangeMode) {
+    if (exactChangeMode) {
+        std::cout << "!! NOTICE: EXACT CHANGE ONLY. \nThe machine will not dispense any change if you overpay. !!" << std::endl;
+    }
     std::string input;
     std::cout << "Insert coins (type coin name like 'Quarter', 'Dime', 'Nickel'):" << std::endl;
 

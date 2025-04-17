@@ -12,7 +12,7 @@ class CoinSlot{
         CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost);
         void notifyFundsAvailable();
         void calculateInsertedValue();
-        void startCoinInsertion();
+        void startCoinInsertion(bool exactChangeMode);
         void addCoin(const Coin& coin);
         double getTotalInsertedValue() const; 
         double getMinimumValue() const;
