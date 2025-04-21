@@ -45,3 +45,12 @@ Beverage Slot::getFrontBeverage() const {
 bool Slot::isSlotAvailable() const {
     return beverages.size() < maxCapacity;
 }
+
+
+bool Slot::popFrontBeverage() {
+    if (!beverages.empty()) {
+        beverages.erase(beverages.begin());
+        return true;
+    }
+    return false;
+}
