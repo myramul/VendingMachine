@@ -22,6 +22,7 @@ private:
     Beverage selectedBeverage;
     EventManager* eventManager;
     DispenserContainerIO* io;
+    double insertedAmount = 0.0;
 
 public:
     DispenserContainer(EventManager* manager, DispenserContainerIO* io);
@@ -44,3 +45,4 @@ public:
 };
 
 #endif // DISPENSER_CONTAINER_H
+
