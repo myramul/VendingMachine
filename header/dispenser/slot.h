@@ -26,6 +26,9 @@ public:
     bool fillBeverage(const Beverage& bev);
     Beverage getFrontBeverage() const;
     bool isSlotAvailable() const;
+
+    bool isEmpty() const;
+    bool popFrontBeverage(); 
 };
 
 #endif // SLOT_H

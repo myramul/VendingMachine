@@ -54,3 +54,7 @@ bool Slot::popFrontBeverage() {
     }
     return false;
 }
+
+bool Slot::isEmpty() const {
+    return beverages.empty();
+}

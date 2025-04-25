@@ -14,6 +14,7 @@ enum class DispenserState {
     Maintenance
 }; // MAKE CHANGES TO IMPLEMENTATION BASED ON THIS . STATE IS NOT A STRING
 
+
 class DispenserContainer {
 private:
     std::vector<Slot> storage;
