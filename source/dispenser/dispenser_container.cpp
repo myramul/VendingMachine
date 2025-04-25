@@ -2,33 +2,24 @@
 #include <iostream>
 
 DispenserContainer::DispenserContainer(EventManager* manager, DispenserContainerIO* ioPtr)
-    : bin("MainBin"), state(DispenserState::Idle), eventManager(manager), io(ioPtr) {
+    : bin(), state(DispenserState::Idle), eventManager(manager), io(ioPtr) {
 
-    // Triggered when funds are sufficient (after coin insertion)
-    eventManager->registerListener(EventType::FundsAvailable,
-        [this](const EventData& data) {
-            this->onSufficientFunds(data);
-        }
-    );
+    eventManager->registerListener(EventType::FundsAvailable, [this](const EventData& data) {
+        this->onSufficientFunds(data);
+    });
 
-    // Maintenance triggers refill
-    eventManager->registerListener(EventType::MaintenanceMode,
-        [this](const EventData&) {
-            this->onRefillBeverages();
-        }
-    );
+    eventManager->registerListener(EventType::MaintenanceMode, [this](const EventData&) {
+        this->onRefillBeverages();
+    });
 
-    // Reset to Idle after transaction complete
-    eventManager->registerListener(EventType::TransactionComplete,
-        [this](const EventData&) {
-            this->enterIdleMode();
-        }
-    );
+    eventManager->registerListener(EventType::TransactionComplete, [this](const EventData&) {
+        this->enterIdleMode();
+    });
 }
 
 void DispenserContainer::selectBeverage() {
-    io->displayMenu(storage);   // Display beverages dynamically
-    int selectedIndex = io->handleSelectionInput(storage);  // Get user choice
+    io->displayMenu(storage);
+    int selectedIndex = io->handleSelectionInput(storage);
 
     if (selectedIndex != -1) {
         Slot& selectedSlot = storage[selectedIndex];
@@ -40,15 +31,20 @@ void DispenserContainer::selectBeverage() {
 }
 
 void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
+    if (bin.isOccupied()) {
+        std::cout << "Please collect your previous beverage first!\n";
+        return;
+    }
+
     std::cout << "Dispensing " << beverage.getName() << "...\n";
     selectedBeverage = beverage;
 
     for (Slot& slot : storage) {
         if (!slot.isEmpty() && slot.getFrontBeverage().getName() == beverage.getName()) {
-            slot.popFrontBeverage();   // Remove beverage from slot
-            io->displayDispensedBeverage(beverage);  // Notify user
+            slot.popFrontBeverage();
+            bin.placeBeverage(beverage);    
+            io->displayDispensedBeverage(beverage);
 
-            // Notify event manager with payment details
             EventData data;
             data.inserted_amount = insertedAmount;
             data.beverage_cost = slot.getPrice();
@@ -64,7 +60,7 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
 
 void DispenserContainer::onRefillBeverages() {
     setState(DispenserState::Maintenance);
-    io->inputRefillBeverages(storage);   // Maintenance refill logic
+    io->inputRefillBeverages(storage);
     setState(DispenserState::Idle);
 }
 
@@ -75,7 +71,7 @@ void DispenserContainer::setState(DispenserState newState) {
 void DispenserContainer::onSufficientFunds(EventData data) {
     insertedAmount = data.inserted_amount;
     setState(DispenserState::Processing);
-    selectBeverage();  // Start selection after funds confirmed
+    selectBeverage();
 }
 
 void DispenserContainer::notifyGiveChange() {
@@ -117,7 +113,7 @@ void DispenserContainer::setDispensedBeverage() {
 }
 
 void DispenserContainer::collectItem() {
-    std::cout << "Item collected.\n";
+    bin.collectBeverage();   
     eventManager->notify(EventType::TransactionComplete, {});
 }
 
@@ -129,5 +125,3 @@ std::string DispenserContainer::getState() const {
         default: return "Unknown";
     }
 }
-
-

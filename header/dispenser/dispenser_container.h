@@ -7,7 +7,7 @@
 #include "dispenser/beverage.h"
 #include "dispenser/dispenser_container_io.h"
 #include "event/event_manager.h"
-
+#include "dispenser/dispenser_bin.h"
 enum class DispenserState {
     Idle,
     Processing,
@@ -18,7 +18,7 @@ enum class DispenserState {
 class DispenserContainer {
 private:
     std::vector<Slot> storage;
-    std::string bin;
+    DispenserBin bin; 
     DispenserState state;
     Beverage selectedBeverage;
     EventManager* eventManager;
