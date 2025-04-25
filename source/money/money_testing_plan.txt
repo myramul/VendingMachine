@@ -1,0 +1,127 @@
+
+Testing Plan for Money Component
+Coin Tests (Coin and CoinStorage)
+
+Test 1: Valid Coin Creation  
+Input: "Quarter"  
+Expected Result:  
+getName() returns "QUARTER"  
+getNumericalValue() returns 0.25
+
+Test 2: Invalid Coin Creation  
+Input: "Penny"  
+Expected Result:  
+getNumericalValue() returns 0.0  
+isValidCoin("PENNY") returns false
+
+Test 3: Add and Remove Coins in CoinStorage  
+Setup: Empty CoinStorage  
+Action: 
+Add 2 Dimes
+Remove 1 Dime  
+Expected Result:  
+get_coin_count("DIME") == 1
+
+
+ CoinSlot Tests
+
+Test 4: Insert Valid Coin  
+Setup: CoinSlot with beverage cost $0.75  
+Action: 
+Add "QUARTER" coin  
+Expected Result:  
+getTotalInsertedValue() == 0.25
+
+Test 5: Insert Invalid Coin  
+ Setup: CoinSlot with beverage cost $0.75  
+ Action: Try to insert "Penny"  
+ Expected Result:  
+Coin not added, getTotalInsertedValue() remains unchanged
+
+ Test 6: Notify Funds Available  
+ Setup: Insert coins >= beverage cost ($0.75)  
+ Expected Result:  
+"FUNDS AVAILABLE" printed  
+ EventManager triggers FundsAvailable event
+
+ ChangeDrawer Tests
+
+Test 7: Calculate Total Change Correctly  
+Setup: 10 Quarters, 5 Dimes, 2 Nickels in change drawer
+Expected Result:  
+getTotalChange() == 10*0.25 + 5*0.10 + 2*0.05 == 3.00
+
+Test 8: Refill Slot Over Max Capacity  
+Setup: Max capacity = 10 for each coin  
+Action: 
+Refill with 15 Quarters  
+Expected Result:  
+Only 10 Quarters allowed  
+Warning printed about overflow
+
+
+ChangeDispenser Tests
+
+Test 9: Dispense No Change (Exact Payment)  
+ Setup: Inserted = $1.00, Cost = $1.00  
+ Action: 
+onGiveChange()  
+Expected Result:  
+"Returning no change" printed  
+ No coins removed
+
+Test 10: Dispense Change with Enough Coins  
+Setup: Inserted = $1.00, Cost = $0.75, Enough change coins available  
+Expected Result:  
+1 Quarter dispensed  
+"Returning change: $0.25" printed
+
+Test 11: Dispense No Change When Low Stock  
+Setup: Inserted = $1.00, Cost = $0.75, but getTotalChange() <= 0.20  
+Expected Result:  
+"Returning no change" printed
+
+ MoneyHandler Tests
+
+Test 12: Exact Change Mode Trigger  
+Setup: ChangeDrawer has only $0.10  
+Action: 
+Set state to Idle  
+Expected Result:  
+isExactChangeRequired() returns true  
+Exact Change Mode activated
+
+Test 13: Start Processing State  
+ Setup: Enough change  
+ Action: 
+Set state to Processing  
+Expected Result:  
+CoinSlot accepts coins  
+Notifies when enough inserted
+
+Test 14: Maintenance Mode Entry  
+Action: 
+Set state to Maintenance  
+Expected Result:  
+State becomes Maintenance without errors
+
+
+
+
+How to Structure the Tests
+
+Structure these in a *_test.cpp file using:
+
+ Direct function calls  
+ Asserts (assert()) for values  (#include <cassert>)
+ Mock objects for EventManager if needed  
+
+Example of a very basic C++ test structure:
+
+void test_valid_coin_creation() {
+    Coin coin("Quarter");
+    assert(coin.getName() == "QUARTER");
+    assert(coin.getNumericalValue() == 0.25);
+}
+
+
