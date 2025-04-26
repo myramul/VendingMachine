@@ -7,10 +7,11 @@
 #include <vector>
 #include "money/coin_slot_io.h"
 #include "money/collected_coin.h"
+#include "money/coin_return.h"
 
 class CoinSlot{
     public:
-        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost);
+        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, CoinReturn* coinReturn, double beverageCost);
         void notifyFundsAvailable();
         void calculateInsertedValue();
         void startCoinInsertion(bool exactChangeMode);
@@ -26,6 +27,7 @@ class CoinSlot{
         CoinSlotIO io;
         EventManager* eventManager;
         CollectedCoin* collectedCoin;
+        CoinReturn* coinReturn;
 
         friend class CoinSlotIO;
         void addMoneyToCollection();

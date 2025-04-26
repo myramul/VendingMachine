@@ -9,7 +9,7 @@ class CoinSlot;
 class CoinSlotIO {
     public:
         CoinSlotIO(CoinSlot* owner);
-        void insertCoins(bool exactChangeMode);
+        void insertCoins(bool exactChangeMode, CoinReturn* coinReturn);
         void displayTotalinsertedCoins(double totalInsertedValue);
     private:
         CoinSlot* coin_slot;

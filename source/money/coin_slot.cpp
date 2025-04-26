@@ -2,8 +2,8 @@
 
 #include "money/coin_slot.h"
 
-CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost) :
-    eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(beverageCost), totalInsertedValue(0), io(this) {
+CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost, CoinReturn* coinReturn) :
+    eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(beverageCost), totalInsertedValue(0), io(this), coinReturn(coinReturn) {
 
         // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,

@@ -2,11 +2,12 @@
 
 #include "money/money_handler.h"
 
-MoneyHandler::MoneyHandler(CollectedCoin* collectedCoin, CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager) 
+MoneyHandler::MoneyHandler(CollectedCoin* collectedCoin, CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager, CoinReturn* coinReturn) 
 : coinSlot(coinSlot), 
 changeDrawer(changeDrawer), 
 changeDispenser(changeDispenser), 
 eventManager(eventManager), 
+coinReturn(coinReturn),
 collectedCoin(collectedCoin){
      // Register event listeners for transaction completion
      eventManager->registerListener(EventType::TransactionComplete,
