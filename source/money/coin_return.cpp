@@ -3,8 +3,9 @@
 #include <string>
 #include "money/coin_io.h"
 
+CoinReturn::CoinReturn(EventManager* eventManager) : eventManager(eventManager) {}
 
 void CoinReturn::returnCoins(std::vector<Coin> totalInsertedMoney) {
-    io.returnCoins(totalInsertedMoney);
-    eventManager.notify(EventType::TransactionComplete, EventData{});
+    io.displayReturnCoins(totalInsertedMoney);
+    eventManager->notify(EventType::TransactionComplete, EventData{});
 }

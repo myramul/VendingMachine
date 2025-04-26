@@ -43,7 +43,7 @@ double CoinSlot::getMinimumValue() const {
 }
 
 void CoinSlot::startCoinInsertion(bool exactChangeMode) {
-    io.insertCoins(exactChangeMode);
+    io.insertCoins(exactChangeMode, coinReturn);
 }
 
 void CoinSlot::addMoneyToCollection(){

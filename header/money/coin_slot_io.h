@@ -4,6 +4,8 @@
 #define COIN_SLOT_IO_H
 
 #include <iostream>
+#include <iomanip>
+#include "money/coin_return.h"
 
 class CoinSlot;
 class CoinSlotIO {

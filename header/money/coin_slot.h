@@ -11,7 +11,7 @@
 
 class CoinSlot{
     public:
-        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, CoinReturn* coinReturn, double beverageCost);
+        CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost, CoinReturn* coinReturn);
         void notifyFundsAvailable();
         void calculateInsertedValue();
         void startCoinInsertion(bool exactChangeMode);

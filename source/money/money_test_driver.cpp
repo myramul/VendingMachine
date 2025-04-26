@@ -1,6 +1,6 @@
 // Money Handler Test Driver cpp
 // TO TUN THE FILE USING G++ Compiler:
-// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp source/money/collected_coin.cpp source/money/collected_coin_io.cpp source/money/coin_storage.cpp source/money/coin_storage_io.cpp source/money/change_drawer.cpp source/money/change_drawer_io.cpp source/money/change_dispenser.cpp source/money/change_dispenser_io.cpp source/event/event_manager.cpp -std=c++17 -o money_test
+// g++ -Iheader source/money/coin_slot.cpp source/money/money_test_driver.cpp source/money/coin_slot_io.cpp source/money/coin.cpp source/money/collected_coin.cpp source/money/collected_coin_io.cpp source/money/coin_storage.cpp source/money/coin_storage_io.cpp source/money/change_drawer.cpp source/money/change_drawer_io.cpp source/money/change_dispenser.cpp source/money/change_dispenser_io.cpp source/money/coin_return.cpp source/event/event_manager.cpp source/money/coin_return_io.cpp -std=c++17 -o money_test
 
 #include <iostream>
 #include <cassert>
@@ -16,7 +16,8 @@
 #include "money/change_dispenser.h"
 #include "money/change_drawer_io.h"
 #include "money/change_dispenser_io.h"
-
+#include "money/coin_return.h"
+#include "money/coin_return_io.h"
 
 void testing_valid_coin_creation(){
     Coin coin("QUARTER");
@@ -30,13 +31,28 @@ void testing_invalid_coin_creation(){
     assert(coin.isValidCoin("PENNY") == false);
 }
 
+void testing_add_and_remove_coin_coin_storage(){
+    CoinStorage coinStorage;
+    Coin coin("DIME");
+    coinStorage.add_coin(coin);
+    coinStorage.add_coin(coin);
+    coinStorage.remove_coins("DIME", 1);
+    assert(coinStorage.get_coin_count("DIME") == 1);
+}
+
+void testing_insert_valid_coin(){
+    EventManager eventManager;
+}
+
 int main(){
     std::cout << "Money Test Driver" << std::endl;
+    testing_valid_coin_creation();
+    
+    
+    
+    
     return 0;
 
-
-
-   
     
 }
 
