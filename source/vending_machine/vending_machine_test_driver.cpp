@@ -19,7 +19,7 @@ int main() {
     io.handleMaintenanceMenuSelection();
 
     std::cout << "\nTesting setState to Processing:\n";
-    vendingMachine.setState("Processing");
+    vendingMachine.setState("Processing"); // state is not a string anymore
 
     std::cout << "\nTesting enterIdleMode:\n";
     vendingMachine.enterIdleMode();

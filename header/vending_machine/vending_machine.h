@@ -31,7 +31,7 @@ public:
         MoneyHandler* mh,
         DispenserContainer* dc,
         ReportManager* rm
-    );
+    ); // make sure to implement this version of the constructor
 
     // use VendingMachineState instead of string
     void setState(VendingMachineState newState);

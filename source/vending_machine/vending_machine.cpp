@@ -8,7 +8,7 @@ VendingMachine::VendingMachine(
     DispenserContainer* dc,
     ReportManager* rm)
     : maintenancePassword(password),
-      state("Idle"),
+      state("Idle"), // state is not a string
       eventManager(em),
       moneyComponent(mh),
       dispenserComponent(dc),
@@ -22,7 +22,7 @@ VendingMachine::VendingMachine(
     );
 }
 
-void VendingMachine::setState(const std::string& newState) {
+void VendingMachine::setState(const std::string& newState) { // state is not a string
     state = newState;
 }
 
