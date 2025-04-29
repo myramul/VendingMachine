@@ -4,6 +4,7 @@
 #define CHANGE_DRAWER_IO_H
 
 #include <iostream>
+#include <unordered_map>
 
 class ChangeDrawer;
 class ChangeDrawerIO {

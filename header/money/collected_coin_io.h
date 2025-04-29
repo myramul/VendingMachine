@@ -4,6 +4,7 @@
 #define COLLECTED_COIN_IO_H
 
 #include <iostream>
+#include <unordered_map>
 
 class CollectedCoin;
 class CollectedCoinIO {
