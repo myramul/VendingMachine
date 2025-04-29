@@ -13,7 +13,7 @@ void CoinSlotIO::insertCoins(bool exactChangeMode, CoinReturn* coinReturn) {
     std::string input;
     std::cout << "Insert coins (type coin name like 'Quarter', 'Dime', 'Nickel') or 'X' FOR COIN RETURN:" << std::endl;
 
-    while (coin_slot->getTotalInsertedValue() < coin_slot->getMinimumValue()) {
+    do {
         std::cout << "> ";
         std::getline(std::cin, input);
 
@@ -32,7 +32,10 @@ void CoinSlotIO::insertCoins(bool exactChangeMode, CoinReturn* coinReturn) {
         }
 
         std::cout << "Current inserted: $" << std::fixed << std::setprecision(2) << coin_slot->getTotalInsertedValue() << std::endl;
-    }
+        if (coin_slot->getTotalInsertedValue() == coin_slot->getMinimumValue()) {
+            break;
+        }
+    } while (coin_slot->getTotalInsertedValue() < coin_slot->getMinimumValue());
 
     coin_slot->notifyFundsAvailable();
 }

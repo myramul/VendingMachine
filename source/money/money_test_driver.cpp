@@ -42,11 +42,17 @@ void testing_add_and_remove_coin_coin_storage(){
 
 void testing_insert_valid_coin(){
     EventManager eventManager;
+    CollectedCoin collectedCoin(&eventManager);
+    CoinReturn coinReturn(&eventManager);
+    CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00, &coinReturn);
+    coinSlot.startCoinInsertion(false);
+    // CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost, CoinReturn* coinReturn);
+    
 }
 
 int main(){
     std::cout << "Money Test Driver" << std::endl;
-    testing_valid_coin_creation();
+    testing_insert_valid_coin();
     
     
     
