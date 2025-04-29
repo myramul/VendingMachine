@@ -8,7 +8,7 @@ void ChangeDrawerIO::inputChangeCoins() {
     std::string name;
     int quantity;
 
-    std::cout << "Enter coin name to refill (NICKEL, DIME, QUARTER): ";
+    std::cout << "\nEnter coin name to refill (NICKEL, DIME, QUARTER): ";
     std::cin >> name;
     std::cout << "Enter quantity: ";
     std::cin >> quantity;
@@ -21,7 +21,7 @@ void ChangeDrawerIO::inputChangeCoins() {
 }
 
 void ChangeDrawerIO::displayChangeLevels(std::unordered_map<std::string, int> levels) const {
-    std::cout << "Current Change Levels:\n";
+    std::cout << "\nCurrent Change Levels:\n";
     for (const auto& [coin, amount] : levels) {
         std::cout << " - " << coin << ": x" << amount << std::endl;
     }

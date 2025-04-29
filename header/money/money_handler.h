@@ -32,12 +32,12 @@ class MoneyHandler {
         CollectedCoin* collectedCoin;
         CoinReturn* coinReturn;
         bool exactChangeMode;
-        MoneyHandlerState state;
+        MoneyHandlerState state = MoneyHandlerState::Idle;
         EventManager* eventManager;
 
-        bool enterIdleState(); 
-        bool enterProcessingState(); 
-        bool enterMaintenanceMode(); 
+        void enterIdleState(); 
+        void enterProcessingState(); 
+        void enterMaintenanceMode(); 
         bool isExactChangeRequired() const; 
 };
 

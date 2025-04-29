@@ -105,29 +105,4 @@ Expected Result:
 CoinSlot accepts coins  
 Notifies when enough inserted
 
-Test 15: Maintenance Mode Entry  
-Action: 
-Set state to Maintenance  
-Expected Result:  
-State becomes Maintenance without errors
-
-
-
-
-How to Structure the Tests
-
-Structure these in a *_test.cpp file using:
-
- Direct function calls  
- Asserts (assert()) for values  (#include <cassert>)
- Mock objects for EventManager if needed  
-
-Example of a very basic C++ test structure:
-
-void test_valid_coin_creation() {
-    Coin coin("Quarter");
-    assert(coin.getName() == "QUARTER");
-    assert(coin.getNumericalValue() == 0.25);
-}
-
 

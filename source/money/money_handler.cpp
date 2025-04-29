@@ -30,46 +30,33 @@ collectedCoin(collectedCoin){
 void MoneyHandler::setState(MoneyHandlerState newState) {
     switch (newState) {
         case MoneyHandlerState::Idle:
-            if (enterIdleState()) {
-                state = MoneyHandlerState::Idle;
-            }
+            enterIdleState();
             break;
         case MoneyHandlerState::Processing:
-            if (enterProcessingState()) {
-                state = MoneyHandlerState::Processing;
-            }
+            enterProcessingState();
             break;
         case MoneyHandlerState::Maintenance:
-            if (enterMaintenanceMode()) {
-                state = MoneyHandlerState::Maintenance;
-            }
+            enterMaintenanceMode();
             break;
     }
 }
 
-bool MoneyHandler::enterIdleState() {
+void MoneyHandler::enterIdleState() {
     // std::cout << "[MoneyHandler] Entering Idle State.\n";
+    state = MoneyHandlerState::Idle;
+}
+
+void MoneyHandler::enterProcessingState() {
+   std::cout << "[MoneyHandler] Entering Processing State.\n";
+
     exactChangeMode = isExactChangeRequired();
-    return true;
-}
-
-bool MoneyHandler::enterProcessingState() {
-   // std::cout << "[MoneyHandler] Entering Processing State.\n";
-
-    if (isExactChangeRequired()) {
-        exactChangeMode = true;
-    } else {
-        exactChangeMode = false;
-    }
-
-    // Start coin insertion
+    state = MoneyHandlerState::Processing;
     coinSlot->startCoinInsertion(exactChangeMode);
-    return true;
 }
 
-bool MoneyHandler::enterMaintenanceMode() {
+void MoneyHandler::enterMaintenanceMode() {
     // std::cout << "[MoneyHandler] Entering Maintenance Mode.\n";
-    return true;
+    state = MoneyHandlerState::Maintenance;
 }
 
 bool MoneyHandler::isExactChangeRequired() const {
@@ -82,9 +69,13 @@ void MoneyHandler::onResetForNewTransaction() {
 }
 
 void MoneyHandler::refillChange() {
-    changeDrawer->onRefillChange();
+    if (state == MoneyHandlerState::Maintenance) {
+        changeDrawer->onRefillChange();
+    }
 }
 
 void MoneyHandler::collectMoney() {
-    collectedCoin->onCollectMoney();
+    if (state == MoneyHandlerState::Maintenance) {
+        collectedCoin->onCollectMoney();
+    }
 }
