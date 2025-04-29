@@ -80,3 +80,11 @@ void MoneyHandler::onResetForNewTransaction() {
     // std::cout << "[MoneyHandler] Resetting for new transaction.\n";
     setState(MoneyHandlerState::Idle);
 }
+
+void MoneyHandler::refillChange() {
+    changeDrawer->onRefillChange();
+}
+
+void MoneyHandler::collectMoney() {
+    collectedCoin->onCollectMoney();
+}

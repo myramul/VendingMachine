@@ -23,6 +23,8 @@ class MoneyHandler {
         MoneyHandler(CollectedCoin* collectedCoin, CoinSlot* coinSlot, ChangeDrawer* changeDrawer, ChangeDispenser* changeDispenser, EventManager* eventManager, CoinReturn* coinReturn);
         void setState(MoneyHandlerState state);
         void onResetForNewTransaction();
+        void refillChange();
+        void collectMoney();
     private:
         CoinSlot* coinSlot;
         ChangeDrawer* changeDrawer;

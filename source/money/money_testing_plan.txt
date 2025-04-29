@@ -50,7 +50,7 @@ Expected result: Coins inserted are returned and transaction is complete
 "FUNDS AVAILABLE" printed  
  EventManager triggers FundsAvailable event
 
- ChangeDrawer Tests
+ChangeDrawer Tests
 
 Test 8: Calculate Total Change Correctly  
 Setup: 10 Quarters, 5 Dimes, 2 Nickels in change drawer

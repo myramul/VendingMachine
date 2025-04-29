@@ -5,7 +5,6 @@
 CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost, CoinReturn* coinReturn) :
     eventManager(eventManager), collectedCoin(collectedCoin), minimumValue(beverageCost), totalInsertedValue(0), io(this), coinReturn(coinReturn) {
 
-        // Register event listeners for transaction completion
         eventManager->registerListener(EventType::TransactionComplete,
             [this](const EventData& data) {
                 this->onResetForNewTransaction();
@@ -14,7 +13,7 @@ CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, dou
 }
 
 void CoinSlot::notifyFundsAvailable() {
-    std::cout << "FUNDS AVAILABLE" << std::endl;
+    std::cout << "FUNDS AVAILABLE." << std::endl;
     
     EventData data;
     data.inserted_amount = totalInsertedValue;
@@ -23,7 +22,7 @@ void CoinSlot::notifyFundsAvailable() {
 }
 
 void CoinSlot::calculateInsertedValue() {
-    totalInsertedValue = 0;
+    totalInsertedValue = 0.00;
     for (Coin& c : totalInsertedMoney) {
         totalInsertedValue += c.getNumericalValue();
     }

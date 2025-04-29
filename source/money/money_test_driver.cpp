@@ -46,23 +46,50 @@ void testing_insert_valid_coin(){
     CoinReturn coinReturn(&eventManager);
     CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00, &coinReturn);
     coinSlot.startCoinInsertion(false);
-    // CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, double beverageCost, CoinReturn* coinReturn);
-    
+}
+
+void testing_coin_return(){
+    EventManager eventManager;
+    CollectedCoin collectedCoin(&eventManager);
+    CoinReturn coinReturn(&eventManager);
+    CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00, &coinReturn);
+    coinSlot.startCoinInsertion(false);
+}
+
+void testing_notify_funds_available(){
+    EventManager eventManager;
+    CollectedCoin collectedCoin(&eventManager);
+    CoinReturn coinReturn(&eventManager);
+    CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00, &coinReturn);
+    coinSlot.startCoinInsertion(false);
+}
+
+void testing_calculate_change_in_drawer(){
+    /*
+    ChangeDrawer::ChangeDrawer(EventManager* eventManager) : eventManager(eventManager), io(this) {
+    // testing purposes
+    coin_storage = {{"QUARTER", 12}, {"DIME", 20}, {"NICKEL", 15}};
+}
+    */
+   EventManager eventManager;
+   ChangeDrawer changeDrawer(&eventManager);
+   changeDrawer.displayChangeLevels();
+}
+
+void testing_refill_change(){
+    return;
 }
 
 int main(){
     std::cout << "Money Test Driver" << std::endl;
-    testing_insert_valid_coin();
+    testing_calculate_change_in_drawer();
+
     
     
     
     
     return 0;
-
-    
 }
-
-
 
 
 

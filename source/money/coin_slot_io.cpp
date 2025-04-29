@@ -7,6 +7,7 @@
 
 CoinSlotIO::CoinSlotIO(CoinSlot* owner) : coin_slot(owner) {}
 void CoinSlotIO::insertCoins(bool exactChangeMode, CoinReturn* coinReturn) {
+    bool coin_return = false;
     if (exactChangeMode) {
         std::cout << "!! NOTICE: EXACT CHANGE ONLY. \nThe machine will not dispense any change if you overpay. !!" << std::endl;
     }
@@ -18,6 +19,7 @@ void CoinSlotIO::insertCoins(bool exactChangeMode, CoinReturn* coinReturn) {
         std::getline(std::cin, input);
 
         if (input == "X" || input == "x") {
+            coin_return = true;
             coinReturn->returnCoins(coin_slot->totalInsertedMoney);
             break;
         }
@@ -36,8 +38,9 @@ void CoinSlotIO::insertCoins(bool exactChangeMode, CoinReturn* coinReturn) {
             break;
         }
     } while (coin_slot->getTotalInsertedValue() < coin_slot->getMinimumValue());
-
-    coin_slot->notifyFundsAvailable();
+    if (!coin_return){
+        coin_slot->notifyFundsAvailable();
+    }
 }
 
 void CoinSlotIO::displayTotalinsertedCoins(double totalInsertedValue){
