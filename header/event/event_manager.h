@@ -20,6 +20,7 @@ struct EventData {
     double inserted_amount;
     double beverage_cost;
     int slotID;
+    std::string beverage_name;
 };
 
 class EventManager {
