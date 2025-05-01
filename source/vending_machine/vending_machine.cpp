@@ -92,7 +92,7 @@ void VendingMachine::onTransactionComplete(const EventData& data) {
 
     // Log transaction
     if (reportManager) {
-        reportManager->logTransaction(data.beverageName, data.inserted_amount, data.change);
+        reportManager->logTransaction(data.beverage_name, data.inserted_amount, (data.inserted_amount - data.beverage_cost));
     }
 
     enterIdleMode();
