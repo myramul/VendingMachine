@@ -19,27 +19,34 @@ void DispenserContainerIO::displayMenu(const std::vector<Slot>& storage) {
 }
 
 int DispenserContainerIO::handleSelectionInput(const std::vector<Slot>& storage) {
-        // THIS SHOULD BE A LOOP:
-            // IF THE CUSTOMER CHOSOES AN INVALID SLOT, DISPLAY THE MESSAGE
-            // AND THEN ALLOW THEM TO ENTER ANOTHER SELCTION UNTIL THEY PICK A VALID SLOT
-            // ONLY THEN RETURN THE INDEX OF THE CHOSEN SLOT 
-        int selection;
-        std::cout << "Please enter your selection number: ";
-        std::cin >> selection;
-
-        if (selection <= 0 || selection > storage.size()) {
-            std::cout << "Invalid selection.\n";
-            return -1;
+    // converted to a loop so that it loops until the customer enters a valid selection
+        int selection = -1;
+    
+        while (true) {
+            std::cout << "Please enter your selection number: ";
+            std::cin >> selection;
+    
+            if (std::cin.fail()) {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid input. Please enter a number.\n";
+                continue;
+            }
+    
+            if (selection <= 0 || selection > static_cast<int>(storage.size())) {
+                std::cout << "Invalid selection. Please choose a number between 1 and " << storage.size() << ".\n";
+                continue;
+            }
+    
+            const Slot& chosenSlot = storage[selection - 1];
+            if (chosenSlot.getCurrentCount() == 0) {
+                std::cout << "Selected slot is empty! Please choose another.\n";
+                continue;
+            }
+    
+            std::cout << "You selected: " << chosenSlot.getFrontBeverage().getName() << "\n";
+            return selection - 1;  
         }
-
-        const Slot& chosenSlot = storage[selection - 1];
-        if (chosenSlot.getCurrentCount() == 0) {
-            std::cout << "Selected slot is empty!\n";
-            return -1;
-        }
-
-        std::cout << "You selected: " << chosenSlot.getFrontBeverage().getName() << "\n";
-        return selection - 1;  // Return index of slot
     }
 
 void DispenserContainerIO::displaySelectedBeverage(const Beverage& beverage, double price)  {
