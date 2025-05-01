@@ -20,6 +20,10 @@ public:
     }
 
     int handleSelectionInput(const std::vector<Slot>& storage) override {
+        // THIS SHOULD BE A LOOP:
+            // IF THE CUSTIMER CHOSOES AN INVALID SLOT, DISPLAY THE MESSAGE
+            // AND THEN ALLOW THEM TO ENTER ANOTHER SELCTION UNTIL THEY PICK A VALID SLOT
+            // ONLY THEN RETURN THE INDEX OF THE CHOSEN SLOT 
         int selection;
         std::cout << "Please enter your selection number: ";
         std::cin >> selection;
