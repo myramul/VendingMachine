@@ -1,8 +1,8 @@
 #include "dispenser/dispenser_container.h"
 #include <iostream>
 
-DispenserContainer::DispenserContainer(EventManager* manager, DispenserContainerIO* ioPtr)
-    : bin(), state(DispenserState::Idle), eventManager(manager), io(ioPtr) {
+DispenserContainer::DispenserContainer(EventManager* manager)
+    : bin(), state(DispenserState::Idle), eventManager(manager), io(this) {
 
     eventManager->registerListener(EventType::FundsAvailable, [this](const EventData& data) {
         this->onSufficientFunds(data);
@@ -15,15 +15,17 @@ DispenserContainer::DispenserContainer(EventManager* manager, DispenserContainer
     eventManager->registerListener(EventType::TransactionComplete, [this](const EventData&) {
         this->enterIdleMode();
     });
+
+    
 }
 
 void DispenserContainer::selectBeverage() {
-    io->displayMenu(storage);
-    int selectedIndex = io->handleSelectionInput(storage);
+    io.displayMenu(storage);
+    int selectedIndex = io.handleSelectionInput(storage);
 
     if (selectedIndex != -1) {
         Slot& selectedSlot = storage[selectedIndex];
-        io->displaySelectedBeverage(selectedSlot.getFrontBeverage(), selectedSlot.getPrice());
+        io.displaySelectedBeverage(selectedSlot.getFrontBeverage(), selectedSlot.getPrice());
         dispenseBeverage(selectedSlot.getFrontBeverage());
     } else {
         std::cout << "Invalid selection.\n";
@@ -43,7 +45,7 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
         if (!slot.isEmpty() && slot.getFrontBeverage().getName() == beverage.getName()) {
             slot.popFrontBeverage();
             bin.placeBeverage(beverage);    
-            io->displayDispensedBeverage(beverage);
+            io.displayDispensedBeverage(beverage);
 
             EventData data;
             data.inserted_amount = insertedAmount;
@@ -60,7 +62,7 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
 
 void DispenserContainer::onRefillBeverages() {
     setState(DispenserState::Maintenance);
-    io->inputRefillBeverages(storage);
+    io.inputRefillBeverages(storage);
     setState(DispenserState::Idle);
 }
 
@@ -106,7 +108,7 @@ bool DispenserContainer::enterIdleMode() {
 void DispenserContainer::setDispensedBeverage() {
     for (const Slot& slot : storage) {
         if (!slot.isEmpty() && slot.getFrontBeverage().getName() == selectedBeverage.getName()) {
-            io->displaySelectedBeverage(selectedBeverage, slot.getPrice());
+            io.displaySelectedBeverage(selectedBeverage, slot.getPrice());
             break;
         }
     }

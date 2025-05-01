@@ -4,16 +4,19 @@
 #include <vector>
 #include "dispenser/slot.h"
 
+class DispenserContainer;
 class DispenserContainerIO {
 public:
-    virtual void displayMenu(const std::vector<Slot>& storage) = 0;
-    virtual int handleSelectionInput(const std::vector<Slot>& storage) = 0;
-    virtual void displaySelectedBeverage(const Beverage& beverage, double price) = 0;
-    virtual void displayDispensedBeverage(const Beverage& beverage) = 0;
-    virtual void displaySlotValues(const std::vector<Slot>& storage) = 0;
-    virtual void inputRefillBeverages(std::vector<Slot>& storage) = 0;
+     void displayMenu(const std::vector<Slot>& storage);
+     int handleSelectionInput(const std::vector<Slot>& storage);
+     void displaySelectedBeverage(const Beverage& beverage, double price);
+     void displayDispensedBeverage(const Beverage& beverage);
+     void displaySlotValues(const std::vector<Slot>& storage);
+     void inputRefillBeverages(std::vector<Slot>& storage);
+     DispenserContainerIO(DispenserContainer* owner);
+private:
+     DispenserContainer* owner;
 
-    virtual ~DispenserContainerIO() = default;
 };
 
 #endif // DISPENSER_CONTAINER_IO_H
