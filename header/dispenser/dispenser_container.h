@@ -43,6 +43,7 @@ public:
     void collectItem();
 
     std::string getState() const;
+    std::vector<Slot>& getStorage(); 
 };
 
 #endif // DISPENSER_CONTAINER_H

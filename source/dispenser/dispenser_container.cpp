@@ -125,3 +125,8 @@ std::string DispenserContainer::getState() const {
         default: return "Unknown";
     }
 }
+
+std::vector<Slot>& DispenserContainer::getStorage() {
+    return storage;
+}
+
