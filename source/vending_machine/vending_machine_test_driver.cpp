@@ -1,58 +1,136 @@
+// vending_machine_test_driver.cpp
+// nodira kazakova
+
+#include <iostream>
+#include <string>
 #include "vending_machine/vending_machine.h"
 #include "vending_machine/vending_machine_io.h"
-#include <iostream>
+#include "event/event_manager.h"
+
+
+class MockDispenserContainerIO : public DispenserContainerIO {
+public:
+    void displayMenu(const std::vector<Slot>&) override {
+        std::cout << "[Mock] Displaying menu\n";
+    }
+
+    int handleSelectionInput(const std::vector<Slot>&) override {
+        std::cout << "[Mock] Handling selection input\n";
+        return 0; // Simulate selecting the first slot
+    }
+
+    void displaySelectedBeverage(const Beverage&, double) override {
+        std::cout << "[Mock] Displaying selected beverage\n";
+    }
+
+    void displayDispensedBeverage(const Beverage&) override {
+        std::cout << "[Mock] Displaying dispensed beverage\n";
+    }
+
+    void displaySlotValues(const std::vector<Slot>&) override {
+        std::cout << "[Mock] Displaying slot values\n";
+    }
+
+    void inputRefillBeverages(std::vector<Slot>&) override {
+        std::cout << "[Mock] Refilling beverages\n";
+    }
+};
+
+
+
+// Mock components to isolate VendingMachine logic
+class MockMoneyHandler : public MoneyHandler {
+public:
+    MockMoneyHandler() : MoneyHandler(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr) {}
+    void collectMoney() {
+        std::cout << "[Mock] Money collected.\n";
+    }
+    void refillChange() {
+        std::cout << "[Mock] Change refilled.\n";
+    }
+};
+
+class MockDispenserContainer : public DispenserContainer {
+public:
+    MockDispenserContainer() : DispenserContainer(nullptr, nullptr) {}
+
+    void refillAll() {
+        std::cout << "[Mock] Beverages refilled.\n";
+    }
+};
+
+class MockReportManager : public ReportManager {
+public:
+    void displayReports() {
+        std::cout << "[Mock] Displaying report summary.\n";
+    }
+};
 
 int main() {
-    // Create instance of VendingMachineIO
-    VendingMachineIO io;
+    std::cout << "==== VENDING MACHINE TEST DRIVER ====\n";
 
-    // Create an instance of VendingMachine
-    VendingMachine vendingMachine(&io);
+    // Set up EventManager
+    EventManager eventManager;
 
-    std::cout << "Testing displayWelcomeMessage:\n";
-    io.displayWelcomeMessage();
+    // Mock components
+    auto moneyHandler = new MockMoneyHandler();
+    MockDispenserContainerIO* mockIO = new MockDispenserContainerIO();
+    DispenserContainer* dispenser = new DispenserContainer(&eventManager, mockIO);
+    auto reports = new MockReportManager();
 
-    std::cout << "\nTesting displayMaintenanceMenu:\n";
-    io.displayMaintenanceMenu();
+    // Set test password
+    std::string password = "admin123";
 
-    std::cout << "\nTesting handleMaintenanceMenuSelection:\n";
-    io.handleMaintenanceMenuSelection();
+    // Create VendingMachine
+    VendingMachine machine(password, &eventManager, moneyHandler, dispenser, reports);
+    VendingMachineIO machineIO(&machine);
 
-    std::cout << "\nTesting setState to Processing:\n";
-    vendingMachine.setState("Processing"); // state is not a string anymore
+    // ==== TEST CASES ====
 
-    std::cout << "\nTesting enterIdleMode:\n";
-    vendingMachine.enterIdleMode();
+    std::cout << "\nInitialize Machine...\n";
+    machine.initializeMachine();
 
-    std::cout << "\nTesting enterMaintenanceMode:\n";
-    vendingMachine.enterMaintenanceMode();
+    std::cout << "\nInvalid Maintenance Password...\n";
+    if (machine.unlockMachine("wrongpass")) {
+        std::cerr << "Should not unlock with wrong password.\n";
+    }
+    else {
+        std::cout << "Correctly rejected wrong password.\n";
+    }
 
-    std::cout << "\nTesting enterProcessingMode:\n";
-    vendingMachine.enterProcessingMode();
+    std::cout << "\nValid Maintenance Password and Menu Actions...\n";
+    if (machine.unlockMachine("admin123")) {
+        machine.enterMaintenanceMode();
 
-    std::cout << "\nTesting initializeMachine:\n";
-    vendingMachine.initializeMachine();
+        // Simulate user choosing options
+        std::cout << "\n--- Simulate Maintenance Menu Actions ---\n";
+        machine.collectMoney();     // Case 1
+        machine.refillChange();     // Case 2
+        machine.refillBeverages();  // Case 3
+        machine.viewReports();      // Case 4
 
-    std::cout << "\nTesting unlockMachine with wrong password:\n";
-    vendingMachine.unlockMachine("wrong123");
+        std::cout << "\nExiting Maintenance Mode...\n";
+        machine.lockMachine();
+        if (machine.unlockMachine("admin123")) {
+            std::cout << "Still accepts valid password after lock.\n";
+        }
+    }
+    else {
+        std::cerr << "Valid password rejected.\n";
+    }
 
-    std::cout << "\nTesting unlockMachine with correct password:\n";
-    vendingMachine.unlockMachine("admin123");
+    std::cout << "\nTransaction Complete Event...\n";
+    eventManager.notify(EventType::TransactionComplete, EventData{ "Purchase complete" });
+    // Should print that the machine goes to idle
 
-    std::cout << "\nTesting authenticateMaintenancePasscode with wrong passcode:\n";
-    bool auth1 = vendingMachine.authenticateMaintenancePasscode("1234");
-    std::cout << "Authentication result: " << (auth1 ? "Success" : "Failure") << std::endl;
+    machineIO.displayWelcomeMessage();
 
-    std::cout << "\nTesting authenticateMaintenancePasscode with correct passcode:\n";
-    bool auth2 = vendingMachine.authenticateMaintenancePasscode("admin123");
-    std::cout << "Authentication result: " << (auth2 ? "Success" : "Failure") << std::endl;
+    std::cout << "\n==== ALL TESTS DONE ====\n";
 
-    std::cout << "\nTesting onTransactionComplete:\n";
-    vendingMachine.onTransactionComplete();
+    // Clean up (if needed)
+    delete moneyHandler;
+    delete dispenser;
+    delete reports;
 
-    std::cout << "\nTesting lockMachine:\n";
-    vendingMachine.lockMachine();
-
-    std::cout << "\nAll tests executed.\n";
     return 0;
 }
