@@ -6,9 +6,10 @@
 #include "money/money_handler.h"
 #include "event/event_manager.h"
 #include "report/report_manager.h"
-#include "vending_machine/vending_machine_io.h"
+#include "money/collected_coin.h"
 
-enum class VendingMachineState { 
+
+enum class VendingMachineState {
     Idle,
     Processing,
     Maintenance
@@ -24,18 +25,17 @@ private:
     std::string maintenancePassword;
 
 public:
-    // use dependency injection
+    // Constructor with dependency injection
     VendingMachine(
         const std::string& password,
         EventManager* em,
         MoneyHandler* mh,
         DispenserContainer* dc,
         ReportManager* rm
-    ); // make sure to implement this version of the constructor
+    );
 
-    // use VendingMachineState instead of string
+    // Core functions
     void setState(VendingMachineState newState);
-
     void enterMaintenanceMode();
     bool unlockMachine(const std::string& inputPassword);
     void lockMachine();
@@ -43,7 +43,13 @@ public:
     void enterProcessingMode();
     void initializeMachine();
     bool authenticateMaintenancePasscode(const std::string& inputPasscode);
-    void onTransactionComplete();
+    void onTransactionComplete(const EventData& data);
+
+    // New Maintenance Functions
+    void collectMoney();
+    void refillChange();
+    void refillBeverages();
+    void viewReports();
 };
 
 #endif
