@@ -1,72 +1,84 @@
+// vending_machine.cpp
+// nodira kazakova
+
 #include "vending_machine/vending_machine.h"
 #include <iostream>
 
-VendingMachine::VendingMachine(
+VendingMachine::VendingMachine::VendingMachine(
     const std::string& password,
     EventManager* em,
     MoneyHandler* mh,
     DispenserContainer* dc,
     ReportManager* rm)
     : maintenancePassword(password),
-      state("Idle"), // state is not a string
-      eventManager(em),
-      moneyComponent(mh),
-      dispenserComponent(dc),
-      reportManager(rm)
+    state(VendingMachineState::Idle),
+    eventManager(em),
+    moneyComponent(mh),
+    dispenserComponent(dc),
+    reportManager(rm)
 {
-    // Register event listener for transaction complete
     eventManager->registerListener(EventType::TransactionComplete,
         [this](const EventData& data) {
-            this->onTransactionComplete();
+            this->onTransactionComplete(data);
         }
     );
 }
 
-void VendingMachine::setState(const std::string& newState) { // state is not a string
+void VendingMachine::setState(VendingMachineState newState) {
     state = newState;
 }
 
+
 void VendingMachine::enterMaintenanceMode() {
-    setState("Maintenance");
+    setState(VendingMachineState::Maintenance);
     std::cout << "Machine is now in maintenance mode.\n";
 
-    // Notify event manager that machine entered maintenance mode
+    /*
+    // Log maintenance opening
+    if (reportManager && moneyComponent && dispenserComponent) {
+        auto changeLevels = moneyComponent->getChangeLevels();
+        double moneyCollected = moneyComponent->getTotalMoney();
+        auto slotContents = dispenserComponent->getSlotContents();
+
+        reportManager->logMaintenanceOpening(changeLevels, moneyCollected, slotContents);
+    }
+    */
+
     EventData data;
     data.message = "Entering Maintenance Mode";
     eventManager->notify(EventType::MaintenanceMode, data);
 }
+
 
 bool VendingMachine::unlockMachine(const std::string& inputPassword) {
     return inputPassword == maintenancePassword;
 }
 
 void VendingMachine::lockMachine() {
-    setState("Idle");
+    setState(VendingMachineState::Idle);
     std::cout << "Machine is now locked.\n";
 }
 
+
 void VendingMachine::enterIdleMode() {
-    setState("Idle");
+    setState(VendingMachineState::Idle);
     std::cout << "Entering idle mode.\n";
 
-    // Notify event manager that machine entered idle mode
     EventData data;
     data.message = "Entering Idle Mode";
     eventManager->notify(EventType::IdleMode, data);
 }
 
 void VendingMachine::enterProcessingMode() {
-    setState("Processing");
+    setState(VendingMachineState::Processing);
     std::cout << "Entering processing mode.\n";
 
-    // Notify event manager to start accepting coins
     EventData data;
     data.message = "Start Coin Accepting";
     eventManager->notify(EventType::StartCoinAccepting, data);
 }
 
 void VendingMachine::initializeMachine() {
-    // Initialize machine: show maintenance menu (idle for now)
     enterIdleMode();
     std::cout << "Vending machine initialized.\n";
 }
@@ -75,7 +87,57 @@ bool VendingMachine::authenticateMaintenancePasscode(const std::string& inputPas
     return unlockMachine(inputPasscode);
 }
 
-void VendingMachine::onTransactionComplete() {
+void VendingMachine::onTransactionComplete(const EventData& data) {
     std::cout << "Transaction completed. Returning to idle mode.\n";
+
+    // Log transaction
+    if (reportManager) {
+        reportManager->logTransaction(data.beverageName, data.inserted_amount, data.change);
+    }
+
     enterIdleMode();
 }
+
+void VendingMachine::collectMoney() {
+    //moneyComponent->collectMoney();
+    std::cout << "Money collected successfully.\n";
+}
+
+void VendingMachine::refillChange() {
+    std::cout << "[TODO] refillChange() not implemented in MoneyHandler yet.\n";
+    // moneyComponent->refillChange();
+}
+
+void VendingMachine::refillBeverages() {
+    std::cout << "[TODO] refillAll() not implemented in DispenserComponent yet.\n";
+    // dispenserComponent->refillAll();
+}
+
+void VendingMachine::viewReports() {
+    std::cout << "[TODO] displayReports() not implemented in ReportManager yet.\n";
+    // reportManager->displayReports();
+}
+
+
+
+/*
+// New maintenance functions
+void VendingMachine::collectMoney() {
+    moneyComponent->collectMoney();
+    std::cout << "Money collected successfully.\n";
+}
+
+void VendingMachine::refillChange() {
+    moneyComponent->refillChange();
+    std::cout << "Change refilled successfully.\n";
+}
+
+void VendingMachine::refillBeverages() {
+    dispenserComponent->refillAll();
+    std::cout << "Beverages refilled successfully.\n";
+}
+
+void VendingMachine::viewReports() {
+    reportManager->displayReports();
+}
+*/
