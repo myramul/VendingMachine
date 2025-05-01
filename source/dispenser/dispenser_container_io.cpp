@@ -1,54 +1,64 @@
 #include "dispenser/dispenser_container_io.h"
 #include <iostream>
 
-class ConsoleDispenserContainerIO : public DispenserContainerIO {
-public:
+DispenserContainerIO::DispenserContainerIO(DispenserContainer* owner) : owner(owner) {}
 
-    void displayMenu(const std::vector<Slot>& storage) override {
-        std::cout << "==== BEVERAGE MENU ====\n";
-        int optionNumber = 1;
-        for (const auto& slot : storage) {
-            std::cout << "[";
-            if (slot.getCurrentCount() == 0) {
-                std::cout << "X";
-            } else {
-                std::cout << optionNumber;
+void DispenserContainerIO::displayMenu(const std::vector<Slot>& storage) {
+    std::cout << "==== BEVERAGE MENU ====\n";
+    int optionNumber = 1;
+    for (const auto& slot : storage) {
+        std::cout << "[";
+        if (slot.getCurrentCount() == 0) {
+            std::cout << "X";
+        } else {
+            std::cout << optionNumber;
+        }
+        std::cout << "] " << slot.getFrontBeverage().getName() << " $" << slot.getPrice() << "\n";
+        optionNumber++;
+    }
+}
+
+int DispenserContainerIO::handleSelectionInput(const std::vector<Slot>& storage) {
+    // converted to a loop so that it loops until the customer enters a valid selection
+        int selection = -1;
+    
+        while (true) {
+            std::cout << "Please enter your selection number: ";
+            std::cin >> selection;
+    
+            if (std::cin.fail()) {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid input. Please enter a number.\n";
+                continue;
             }
-            std::cout << "] " << slot.getFrontBeverage().getName() << " $" << slot.getPrice() << "\n";
-            optionNumber++;
+    
+            if (selection <= 0 || selection > static_cast<int>(storage.size())) {
+                std::cout << "Invalid selection. Please choose a number between 1 and " << storage.size() << ".\n";
+                continue;
+            }
+    
+            const Slot& chosenSlot = storage[selection - 1];
+            if (chosenSlot.getCurrentCount() == 0) {
+                std::cout << "Selected slot is empty! Please choose another.\n";
+                continue;
+            }
+    
+            std::cout << "You selected: " << chosenSlot.getFrontBeverage().getName() << "\n";
+            return selection - 1;  
         }
     }
 
-    int handleSelectionInput(const std::vector<Slot>& storage) override {
-        int selection;
-        std::cout << "Please enter your selection number: ";
-        std::cin >> selection;
-
-        if (selection <= 0 || selection > storage.size()) {
-            std::cout << "Invalid selection.\n";
-            return -1;
-        }
-
-        const Slot& chosenSlot = storage[selection - 1];
-        if (chosenSlot.getCurrentCount() == 0) {
-            std::cout << "Selected slot is empty!\n";
-            return -1;
-        }
-
-        std::cout << "You selected: " << chosenSlot.getFrontBeverage().getName() << "\n";
-        return selection - 1;  // Return index of slot
-    }
-
-    void displaySelectedBeverage(const Beverage& beverage, double price) override {
+void DispenserContainerIO::displaySelectedBeverage(const Beverage& beverage, double price)  {
         std::cout << "You selected: " << beverage.getName() << " - Price: $" << price << "\n";
     }
     
 
-    void displayDispensedBeverage(const Beverage& beverage) override {
+void DispenserContainerIO::displayDispensedBeverage(const Beverage& beverage)  {
         std::cout << "Dispensing: " << beverage.getName() << "\n";
     }
 
-    void displaySlotValues(const std::vector<Slot>& storage) override {
+void DispenserContainerIO::displaySlotValues(const std::vector<Slot>& storage)  {
         std::cout << "==== SLOT DETAILS ====\n";
         for (const auto& slot : storage) {
             std::cout << "Slot [" << slot.getID() << "] - "
@@ -57,7 +67,7 @@ public:
         }
     }
 
-    void inputRefillBeverages(std::vector<Slot>& storage) override {
+void DispenserContainerIO::inputRefillBeverages(std::vector<Slot>& storage)  {
         int slotId;
         std::string beverageName;
 
@@ -85,6 +95,5 @@ public:
                 }
             }
         }
-    }
-};
+}
 

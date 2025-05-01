@@ -22,11 +22,11 @@ private:
     DispenserState state;
     Beverage selectedBeverage;
     EventManager* eventManager;
-    DispenserContainerIO* io;
+    DispenserContainerIO io;
     double insertedAmount = 0.0;
 
 public:
-    DispenserContainer(EventManager* manager, DispenserContainerIO* io);
+    DispenserContainer(EventManager* manager);
 
     void selectBeverage();
     void dispenseBeverage(const Beverage& beverage);
