@@ -29,6 +29,7 @@
 #include "dispenser/dispenser_container_io.h"
 
 /* BULD COMMAND FOR G++ compiler
+
 g++ -Iheader \
   source/vending_machine/vending_machine.cpp \
   source/vending_machine/vending_machine_io.cpp \
@@ -81,8 +82,15 @@ int main(){
     DispenserContainer dispenserContainer(&eventManager);
   
     // CREATING VENDING MACHINE
+    std::string maintenance_password = "hello";
 
-   VendingMachine vendingMachine("hello", &eventManager, &moneyHandler, & dispenserContainer, &reportManager);
+   VendingMachine vendingMachine(
+    maintenance_password, 
+    &eventManager, 
+    &moneyHandler, 
+    &dispenserContainer, 
+    &reportManager
+  );
    
 
     // RUNNING VM
