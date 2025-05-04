@@ -10,7 +10,7 @@ private:
     std::optional<Beverage> currentBeverage;
 
 public:
-    void placeBeverage(const Beverage& beverage);
+    bool placeBeverage(const Beverage& beverage);
     bool isOccupied() const;
     void collectBeverage();
 };

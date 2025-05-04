@@ -49,15 +49,19 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
         if (!slot.isEmpty() && slot.getFrontBeverage().getName() == beverage.getName()) {
             slot.popFrontBeverage();
             io.displayDispensedBeverage(beverage);
-            bin.placeBeverage(beverage);    
+            
+            if (bin.placeBeverage(beverage)) {
+                EventData data;
+                data.inserted_amount = insertedAmount;
+                data.beverage_cost = slot.getPrice();
+                data.slotID = slot.getID();
 
-            EventData data;
-            data.inserted_amount = insertedAmount;
-            data.beverage_cost = slot.getPrice();
-            data.slotID = slot.getID();
+                eventManager->notify(EventType::BeverageDispensed, data);
+                return;
 
-            eventManager->notify(EventType::BeverageDispensed, data);
-            return;
+            }
+
+            
         }
     }
 
