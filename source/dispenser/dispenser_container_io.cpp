@@ -5,18 +5,16 @@
 DispenserContainerIO::DispenserContainerIO(DispenserContainer* owner) : owner(owner) {}
 
 void DispenserContainerIO::displayMenu(const std::vector<Slot>& storage) {
-    std::cout << "==== BEVERAGE MENU ====\n";
-    int optionNumber = 1;
-    for (const auto& slot : storage) {
-        std::cout << "[";
-        if (slot.getCurrentCount() == 0) {
-            std::cout << "X";
-        } else {
-            std::cout << optionNumber;
+    
+        std::cout << "==== BEVERAGE MENU ====\n";
+        int optionNumber = 1;
+        for (size_t i = 0; i < storage.size(); i += 2) {
+            std::cout << "[" << (storage[i].getCurrentCount() == 0 ? "X" : std::to_string(optionNumber)) << "] " 
+                      << storage[i].getFrontBeverage().getName() << " $" << storage[i].getPrice() << " | "
+                      << "[" << (storage[i + 1].getCurrentCount() == 0 ? "X" : std::to_string(optionNumber + 1)) << "] " 
+                      << storage[i + 1].getFrontBeverage().getName() << " $" << storage[i + 1].getPrice() << "\n";
+            optionNumber += 2;
         }
-        std::cout << "] " << slot.getFrontBeverage().getName() << " $" << slot.getPrice() << "\n";
-        optionNumber++;
-    }
 }
 
 int DispenserContainerIO::handleSelectionInput(const std::vector<Slot>& storage) {
