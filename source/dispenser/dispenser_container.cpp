@@ -47,14 +47,13 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
         return;
     }
 
-    std::cout << "Dispensing " << beverage.getName() << "...\n";
     selectedBeverage = beverage;
 
     for (Slot& slot : storage) {
         if (!slot.isEmpty() && slot.getFrontBeverage().getName() == beverage.getName()) {
             slot.popFrontBeverage();
-            bin.placeBeverage(beverage);    
             io.displayDispensedBeverage(beverage);
+            bin.placeBeverage(beverage);    
 
             EventData data;
             data.inserted_amount = insertedAmount;
