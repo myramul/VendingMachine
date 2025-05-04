@@ -42,10 +42,6 @@ void DispenserContainer::selectBeverage() {
 }
 
 void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
-    if (bin.isOccupied()) {
-        std::cout << "Please collect your previous beverage first!\n";
-        return;
-    }
 
     selectedBeverage = beverage;
 
@@ -124,7 +120,6 @@ void DispenserContainer::setDispensedBeverage() {
 
 void DispenserContainer::collectItem() {
     bin.collectBeverage();   
-    eventManager->notify(EventType::TransactionComplete, {});
 }
 
 void DispenserContainer::displayMenu() {

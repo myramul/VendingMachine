@@ -1,10 +1,12 @@
 #include "dispenser/dispenser_bin.h"
 
 void DispenserBin::placeBeverage(const Beverage& beverage) {
+    /*
     if (currentBeverage.has_value()) {
         std::cout << "Bin is full! Please collect your beverage before dispensing a new one.\n";
         return;
     }
+    */
     currentBeverage = beverage;
     std::cout << beverage.getName() << " is now in the bin. Please collect it.\n";
 }

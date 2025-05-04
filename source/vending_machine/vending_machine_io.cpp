@@ -5,6 +5,8 @@
 #include "vending_machine/vending_machine.h"
 #include <iostream>
 #include <string>
+#include <limits>
+
 
 VendingMachineIO::VendingMachineIO(VendingMachine* machine)
     : vendingMachine(machine) {}
@@ -14,9 +16,10 @@ void VendingMachineIO::displayWelcomeMessage() {
     std::cout << "We accept: Nickels ($0.05), Dimes ($0.10) and Quarters ($0.25).\n";
 
     vendingMachine->displayMenu();
-    std::cout << "Press [Enter] to buy a beverage \nor type maintenance password:\n";
+    std::cout << "\nPress [Enter] to buy a beverage \n(Or type maintenance password):\n";
 
     std::string input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, input);
 
     if (vendingMachine->authenticateMaintenancePasscode(input)) {
