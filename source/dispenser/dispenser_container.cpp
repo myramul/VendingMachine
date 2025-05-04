@@ -16,7 +16,16 @@ DispenserContainer::DispenserContainer(EventManager* manager)
         this->enterIdleMode();
     });
 
-    
+    storage = {
+        Slot(1, 1.00, 3),
+        Slot(2, 1.00, 3),
+        Slot(3, 1.00, 3),
+        Slot(4, 1.00, 3),
+        Slot(5, 1.00, 3),
+        Slot(6, 1.00, 3),
+        Slot(7, 1.00, 3),
+        Slot(8, 1.00, 3),
+    };
 }
 
 void DispenserContainer::selectBeverage() {

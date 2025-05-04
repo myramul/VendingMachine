@@ -23,6 +23,7 @@ private:
     Beverage selectedBeverage;
     EventManager* eventManager;
     DispenserContainerIO io;
+    int num_slots = 8;
     double insertedAmount = 0.0;
 
 public:
