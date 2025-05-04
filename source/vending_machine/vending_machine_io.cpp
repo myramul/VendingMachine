@@ -10,7 +10,7 @@ VendingMachineIO::VendingMachineIO(VendingMachine* machine)
     : vendingMachine(machine) {}
 
 void VendingMachineIO::displayWelcomeMessage() {
-    std::cout << "Welcome to Bug Busters Vending Machine!\n";
+    std::cout << "\nWelcome to Bug Busters Vending Machine!\n";
     std::cout << "We accept: Nickels ($0.05), Dimes ($0.10) and Quarters ($0.25).\n";
 
     vendingMachine->displayMenu();
@@ -25,13 +25,13 @@ void VendingMachineIO::displayWelcomeMessage() {
         handleMaintenanceMenuSelection();
     }
     else {
-        std::cout << "Starting normal transaction...\n";
+        std::cout << "\nStarting normal transaction...\n";
         vendingMachine->enterProcessingMode();
     }
 }
 
 void VendingMachineIO::displayMaintenanceMenu() {
-    std::cout << "=== Maintenance Menu ===\n";
+    std::cout << "\n=== Maintenance Menu ===\n";
     std::cout << "1. Collect Money\n";
     std::cout << "2. Refill Change\n";
     std::cout << "3. Refill Beverages\n";
@@ -61,7 +61,6 @@ void VendingMachineIO::handleMaintenanceMenuSelection() {
             break;
         case 5:
             vendingMachine->lockMachine();
-            vendingMachine->enterIdleMode();
             std::cout << "Exiting maintenance mode.\n";
             break;
         default:

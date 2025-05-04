@@ -57,14 +57,13 @@ bool VendingMachine::unlockMachine(const std::string& inputPassword) {
 }
 
 void VendingMachine::lockMachine() {
-    setState(VendingMachineState::Idle);
     std::cout << "Machine is now locked.\n";
+    startMachine();
 }
 
 
 void VendingMachine::enterIdleMode() {
     setState(VendingMachineState::Idle);
-    std::cout << "Entering idle mode.\n";
 
     EventData data;
     data.message = "Entering Idle Mode";
@@ -90,14 +89,13 @@ bool VendingMachine::authenticateMaintenancePasscode(const std::string& inputPas
 }
 
 void VendingMachine::onTransactionComplete(const EventData& data) {
-    std::cout << "Transaction completed. Returning to idle mode.\n";
-
     // Log transaction
     if (reportManager) {
         reportManager->logTransaction(data.beverage_name, data.inserted_amount, (data.inserted_amount - data.beverage_cost));
     }
 
     enterIdleMode();
+    startMachine();
 }
 
 void VendingMachine::collectMoney() {

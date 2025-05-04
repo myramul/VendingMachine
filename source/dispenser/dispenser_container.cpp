@@ -9,7 +9,7 @@ DispenserContainer::DispenserContainer(EventManager* manager)
     });
 
     eventManager->registerListener(EventType::MaintenanceMode, [this](const EventData&) {
-        this->onRefillBeverages();
+        this->enterMaintenanceMode();
     });
 
     eventManager->registerListener(EventType::TransactionComplete, [this](const EventData&) {

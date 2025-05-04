@@ -81,22 +81,13 @@ int main(){
     DispenserContainer dispenserContainer(&eventManager);
   
     // CREATING VENDING MACHINE
-    /*
-        VendingMachine(
-        const std::string& password,
-        EventManager* em,
-        MoneyHandler* mh,
-        DispenserContainer* dc,
-        ReportManager* rm
-    );
-    */
-   VendingMachine vendingMachine("hello", &eventManager, &moneyHandler, & dispenserContainer, &reportManager);
-   vendingMachine.startMachine();
 
+   VendingMachine vendingMachine("hello", &eventManager, &moneyHandler, & dispenserContainer, &reportManager);
+   
 
     // RUNNING VM
+    vendingMachine.startMachine();
 
 
-    
     return 0;
 }
