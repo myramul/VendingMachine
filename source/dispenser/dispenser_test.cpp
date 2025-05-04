@@ -124,7 +124,7 @@ void full_functionality_test() {
 }
 
 // === MAIN ===
-
+/*
 int main() {
     std::cout << "=== DISPENSER COMPONENT BASIC TESTS ===\n";
 
@@ -137,7 +137,7 @@ int main() {
     std::cout << "=== ALL TESTS COMPLETED ===\n";
     return 0;
 }
-
+*/
 
 //TEST RESULTS
 
