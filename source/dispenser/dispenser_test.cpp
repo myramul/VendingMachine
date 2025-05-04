@@ -1,109 +1,238 @@
 #include <iostream>
-#include <memory>
 
-#include "dispenser/dispenser_container.h"
-#include "dispenser/dispenser_container_io.h"
+#include "dispenser/beverage.h"
 #include "dispenser/slot.h"
-#include "dispenser/slot_io.h"
+#include "dispenser/dispenser_bin.h"
+#include "dispenser/dispenser_container.h"
 #include "event/event_manager.h"
 
-// Using the Console I/O implementation
-class ConsoleDispenserContainerIO : public DispenserContainerIO {
-public:
-    void displayMenu(const std::vector<Slot>& storage) override {
-        std::cout << "\n==== BEVERAGE MENU ====\n";
-        int option = 1;
-        for (const auto& slot : storage) {
-            std::cout << "[" << (slot.getCurrentCount() > 0 ? std::to_string(option) : "X") << "] "
-                      << slot.getFrontBeverage().getName() << " - $" << slot.getPrice() << "\n";
-            option++;
-        }
-    }
+// === BASIC TEST FUNCTIONS (NO ASSERT) ===
 
-    int handleSelectionInput(const std::vector<Slot>& storage) override {
-        int selection;
-        std::cout << "\nEnter selection number: ";
-        std::cin >> selection;
+void test_beverage_class() {
+    std::cout << "Testing Beverage class...\n";
 
-        if (selection <= 0 || selection > storage.size()) return -1;
-        const Slot& chosen = storage[selection - 1];
-        if (chosen.isEmpty()) return -1;
+    Beverage b1;
+    std::cout << (b1.getName() == "Unnamed Beverage" ? "[PASS] Default name\n" : "[FAIL] Default name\n");
 
-        return selection - 1;
-    }
+    Beverage b2("Cola");
+    std::cout << (b2.getName() == "Cola" ? "[PASS] Parameter name\n" : "[FAIL] Parameter name\n");
 
-    void displaySelectedBeverage(const Beverage& beverage, double price) override {
-        std::cout << "Selected: " << beverage.getName() << " | Price: $" << price << "\n";
-    }
+    b2.setName("Sprite");
+    std::cout << (b2.getName() == "Sprite" ? "[PASS] setName\n" : "[FAIL] setName\n");
+}
 
-    void displayDispensedBeverage(const Beverage& beverage) override {
-        std::cout << "Dispensing: " << beverage.getName() << "\n";
-    }
+void test_slot_class() {
+    std::cout << "Testing Slot class...\n";
 
-    void displaySlotValues(const std::vector<Slot>& storage) override {
-        std::cout << "\n==== SLOT INVENTORY ====\n";
-        for (const auto& slot : storage) {
-            std::cout << "Slot [" << slot.getID() << "] - "
-                      << slot.getFrontBeverage().getName() << ", Qty: " << slot.getCurrentCount()
-                      << ", Price: $" << slot.getPrice() << "\n";
-        }
-    }
+    Slot slot(1, 1.50, 2);
+    Beverage b("Fanta");
 
-    void inputRefillBeverages(std::vector<Slot>& storage) override {
-        std::cout << "\n==== REFILLING SLOTS ====\n";
-        for (auto& slot : storage) {
-            std::string input;
-            while (slot.isSlotAvailable()) {
-                std::cout << "Add beverage to Slot " << slot.getID() << " (or 'stop'): ";
-                std::cin >> input;
-                if (input == "stop") break;
-                slot.fillBeverage(Beverage(input));
-            }
-        }
-    }
-};
+    slot.fillBeverage(b);
+    slot.fillBeverage(b);
+    bool overfilled = !slot.fillBeverage(b); // Should be false
 
-void setupSlots(std::vector<Slot>& storage) {
-    Slot s1(1, 1.25, 5);
-    Slot s2(2, 1.00, 5);
-    Slot s3(3, 0.75, 5);
+    std::cout << (overfilled ? "[PASS] Slot full correctly blocked\n" : "[FAIL] Slot overfilled\n");
+
+    std::cout << (slot.getFrontBeverage().getName() == "Fanta" ? "[PASS] getFrontBeverage\n" : "[FAIL] getFrontBeverage\n");
+
+    slot.popFrontBeverage();
+    std::cout << (slot.getCurrentCount() == 1 ? "[PASS] popFrontBeverage\n" : "[FAIL] popFrontBeverage\n");
+
+    slot.popFrontBeverage();
+    std::cout << (slot.isEmpty() ? "[PASS] isEmpty\n" : "[FAIL] isEmpty\n");
+}
+
+void test_dispenser_bin() {
+    std::cout << "Testing DispenserBin...\n";
+
+    DispenserBin bin;
+    std::cout << (!bin.isOccupied() ? "[PASS] Empty bin\n" : "[FAIL] Should be empty\n");
+
+    bin.placeBeverage(Beverage("Tea"));
+    std::cout << (bin.isOccupied() ? "[PASS] Bin occupied\n" : "[FAIL] Should be occupied\n");
+
+    bin.collectBeverage();  // Collect the drink
+    std::cout << (!bin.isOccupied() ? "[PASS] Bin cleared\n" : "[FAIL] Bin should be empty again\n");
+}
+
+void test_dispenser_states() {
+    std::cout << "Testing DispenserContainer state transitions...\n";
+
+    EventManager manager;
+    DispenserContainer dispenser(&manager);
+
+    dispenser.enterProcessingMode();
+    std::cout << (dispenser.getState() == "Processing" ? "[PASS] Processing mode\n" : "[FAIL] Processing mode\n");
+
+    dispenser.enterMaintenanceMode();
+    std::cout << (dispenser.getState() == "Maintenance" ? "[PASS] Maintenance mode\n" : "[FAIL] Maintenance mode\n");
+
+    dispenser.enterIdleMode();
+    std::cout << (dispenser.getState() == "Idle" ? "[PASS] Idle mode\n" : "[FAIL] Idle mode\n");
+}
+
+// === FULL TRANSACTION FLOW ===
+
+void preloadTestSlots(std::vector<Slot>& storage) {
+    Slot s1(1, 1.00, 2);
+    Slot s2(2, 1.25, 1);
+    Slot s3(3, 0.75, 1);
 
     s1.fillBeverage(Beverage("Coke"));
     s1.fillBeverage(Beverage("Coke"));
-
-    s2.fillBeverage(Beverage("Pepsi"));
-    s2.fillBeverage(Beverage("Pepsi"));
-
-    s3.fillBeverage(Beverage("Water"));
-    s3.fillBeverage(Beverage("Water"));
+    s2.fillBeverage(Beverage("Sprite")); // s3 stays empty
 
     storage.push_back(s1);
     storage.push_back(s2);
     storage.push_back(s3);
 }
 
-int main() {
-    std::cout << "=== DISPENSER COMPONENT TEST ===\n";
+void simulate_dispense(DispenserContainer& dispenser, EventManager& manager, double amount) {
+    EventData data;
+    data.inserted_amount = amount;
+    manager.notify(EventType::FundsAvailable, data);
+}
 
-    EventManager eventManager;
-    ConsoleDispenserContainerIO io;
+void full_functionality_test() {
+    std::cout << "\n--- FULL FUNCTIONALITY TEST ---\n";
 
-    DispenserContainer dispenser(&eventManager, &io);
-    setupSlots(dispenser.getStorage()); // Direct slot initialization for test purposes
+    EventManager manager;
+    DispenserContainer dispenser(&manager);
+    preloadTestSlots(dispenser.getStorage());
 
-    std::cout << "\n--- Current Slot Inventory ---\n";
-    io.displaySlotValues(dispenser.getStorage());
+    dispenser.displayMenu();
 
-    // Simulate FundsAvailable event to trigger selection & dispensing
-    EventData funds;
-    funds.inserted_amount = 1.25;
-    eventManager.notify(EventType::FundsAvailable, funds);
+    std::cout << "\n[TEST] Insert $1.00 (select Coke)...\n";
+    simulate_dispense(dispenser, manager, 1.00);
 
-    // Simulate collecting beverage
+    std::cout << "\n[TEST] Insert $1.25 while bin is full (should be blocked)...\n";
+    simulate_dispense(dispenser, manager, 1.25); // will print bin full
+
+    std::cout << "\n[TEST] Collect item from bin...\n";
+    dispenser.collectItem();
+
+    std::cout << "\n[TEST] Insert $1.25 again (select Sprite)...\n";
+    simulate_dispense(dispenser, manager, 1.25);
+    dispenser.collectItem();
+
+    std::cout << "\n[TEST] Insert $0.75 (attempt to select empty slot)...\n";
+    simulate_dispense(dispenser, manager, 0.75);
     dispenser.collectItem();
 
     std::cout << "\n--- Final Slot Inventory ---\n";
-    io.displaySlotValues(dispenser.getStorage());
+    dispenser.displayMenu();
+}
 
+// === MAIN ===
+
+int main() {
+    std::cout << "=== DISPENSER COMPONENT BASIC TESTS ===\n";
+
+    test_beverage_class();
+    test_slot_class();
+    test_dispenser_bin();
+    test_dispenser_states();
+    full_functionality_test();
+
+    std::cout << "=== ALL TESTS COMPLETED ===\n";
     return 0;
 }
+
+
+//TEST RESULTS
+
+/*
+PS C:\Users\welld\source\repos\VsCodeVMTest\VendingMachine> g++ -Iheader source/dispenser/beverage.cpp source/dispenser/slot.cpp source/dispenser/dispenser_bin.cpp source/dispenser/dispenser_container.cpp source/dispenser/dispenser_container_io.cpp source/event/event_manager.cpp source/dispenser/dispenser_test.cpp -std=c++20 -o dispenser_test.exe       
+>> 
+PS C:\Users\welld\source\repos\VsCodeVMTest\VendingMachine> .\dispenser_test.exe
+>>                                                                            
+=== DISPENSER COMPONENT BASIC TESTS ===                                       
+Testing Beverage class...
+[PASS] Default name
+[PASS] Parameter name
+[PASS] setName
+Testing Slot class...
+[PASS] Slot full correctly blocked
+[PASS] getFrontBeverage
+[PASS] popFrontBeverage
+[PASS] isEmpty
+Testing DispenserBin...
+[PASS] Empty bin
+Tea is now in the bin. Please collect it.
+[PASS] Bin occupied
+You collected: Tea
+[PASS] Bin cleared
+Testing DispenserContainer state transitions...
+[PASS] Processing mode
+[PASS] Maintenance mode
+[PASS] Idle mode
+
+--- FULL FUNCTIONALITY TEST ---
+==== BEVERAGE MENU ====
+[1] Coke $1
+[2] Sprite $1.25
+[X] No Beverage $0.75
+
+[TEST] Insert $1.00 (select Coke)...
+==== BEVERAGE MENU ====
+[1] Coke $1
+[2] Sprite $1.25
+[X] No Beverage $0.75
+Please enter your selection number: 1
+You selected: Coke
+You selected: Coke - Price: $1
+Dispensing Coke...
+Coke is now in the bin. Please collect it.
+Dispensing: Coke
+
+[TEST] Insert $1.25 while bin is full (should be blocked)...
+==== BEVERAGE MENU ====
+[1] Coke $1
+[2] Sprite $1.25
+[X] No Beverage $0.75
+Please enter your selection number: 2
+You selected: Sprite
+You selected: Sprite - Price: $1.25
+Please collect your previous beverage first!
+
+[TEST] Collect item from bin...
+You collected: Coke
+
+[TEST] Insert $1.25 again (select Sprite)...
+==== BEVERAGE MENU ====
+[1] Coke $1
+[2] Sprite $1.25
+[X] No Beverage $0.75
+Please enter your selection number: 2
+You selected: Sprite
+You selected: Sprite - Price: $1.25
+Dispensing Sprite...
+Sprite is now in the bin. Please collect it.
+Dispensing: Sprite
+You collected: Sprite
+
+[TEST] Insert $0.75 (attempt to select empty slot)...
+==== BEVERAGE MENU ====
+[1] Coke $1
+[X] No Beverage $1.25
+[X] No Beverage $0.75
+Please enter your selection number: x
+Invalid input. Please enter a number.
+Please enter your selection number: 2
+Selected slot is empty! Please choose another.
+Please enter your selection number: 1
+You selected: Coke
+You selected: Coke - Price: $1
+Dispensing Coke...
+Coke is now in the bin. Please collect it.
+Dispensing: Coke
+You collected: Coke
+
+--- Final Slot Inventory ---
+==== BEVERAGE MENU ====
+[X] No Beverage $1
+[X] No Beverage $1.25
+[X] No Beverage $0.75
+=== ALL TESTS COMPLETED ===
+
+*/
