@@ -13,7 +13,6 @@ CoinSlot::CoinSlot(EventManager* eventManager, CollectedCoin* collectedCoin, dou
 }
 
 void CoinSlot::notifyFundsAvailable() {
-    std::cout << "FUNDS AVAILABLE." << std::endl;
     
     EventData data;
     data.inserted_amount = totalInsertedValue;
@@ -55,5 +54,4 @@ void CoinSlot::onResetForNewTransaction(){
     addMoneyToCollection();
     totalInsertedMoney.clear();
     totalInsertedValue = 0;
-    std::cout << "Coin slot reset for new transaction." << std::endl;
 }
