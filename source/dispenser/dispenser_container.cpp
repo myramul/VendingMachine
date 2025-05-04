@@ -15,16 +15,16 @@ DispenserContainer::DispenserContainer(EventManager* manager)
     eventManager->registerListener(EventType::TransactionComplete, [this](const EventData&) {
         this->enterIdleMode();
     });
-
+    // for demonstration
     storage = {
-        Slot(1, 1.00, 3),
-        Slot(2, 1.00, 3),
-        Slot(3, 1.00, 3),
-        Slot(4, 1.00, 3),
-        Slot(5, 1.00, 3),
-        Slot(6, 1.00, 3),
-        Slot(7, 1.00, 3),
-        Slot(8, 1.00, 3),
+        Slot(1, 1.00, 3, {Beverage("Coke"), Beverage("Coke"), Beverage("Coke")}),
+        Slot(2, 1.00, 3, {Beverage("Fanta"), Beverage("Fanta"), Beverage("Fanta")}),
+        Slot(3, 1.00, 3, {Beverage("Water"), Beverage("Water"), Beverage("Water")}),
+        Slot(4, 1.00, 3, {Beverage("Fanta"), Beverage("Fanta"), Beverage("Fanta")}),
+        Slot(5, 1.00, 3, {Beverage("Coke"), Beverage("Coke"), Beverage("Coke")}),
+        Slot(6, 1.00, 3, {Beverage("Sprite"), Beverage("Sprite"), Beverage("Sprite")}),
+        Slot(7, 1.00, 3, {Beverage("Sprite"), Beverage("Sprite"), Beverage("Sprite")}),
+        Slot(8, 1.00, 3, {Beverage("Water"), Beverage("Water"), Beverage("Water")})
     };
 }
 

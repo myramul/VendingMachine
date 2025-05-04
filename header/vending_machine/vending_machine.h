@@ -7,6 +7,7 @@
 #include "event/event_manager.h"
 #include "report/report_manager.h"
 #include "money/collected_coin.h"
+#include "vending_machine/vending_machine_io.h"
 
 
 enum class VendingMachineState {
@@ -23,6 +24,7 @@ private:
     ReportManager* reportManager;
     VendingMachineState state;
     std::string maintenancePassword;
+    VendingMachineIO io;
 
 public:
     // Constructor with dependency injection
@@ -45,6 +47,7 @@ public:
     bool authenticateMaintenancePasscode(const std::string& inputPasscode);
     void onTransactionComplete(const EventData& data);
     void displayMenu();
+    void startMachine();
 
     // New Maintenance Functions
     void collectMoney();

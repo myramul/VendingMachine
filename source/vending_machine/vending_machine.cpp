@@ -2,6 +2,7 @@
 // nodira kazakova
 
 #include "vending_machine/vending_machine.h"
+#include "vending_machine/vending_machine_io.h"
 #include <iostream>
 
 VendingMachine::VendingMachine::VendingMachine(
@@ -15,7 +16,8 @@ VendingMachine::VendingMachine::VendingMachine(
     eventManager(em),
     moneyComponent(mh),
     dispenserComponent(dc),
-    reportManager(rm)
+    reportManager(rm),
+    io(this)
 {
     eventManager->registerListener(EventType::TransactionComplete,
         [this](const EventData& data) {
@@ -118,6 +120,10 @@ void VendingMachine::viewReports() {
 
 void VendingMachine::displayMenu() {
     dispenserComponent->displayMenu();
+}
+
+void VendingMachine::startMachine(){
+    io.displayWelcomeMessage();
 }
 
 /*

@@ -3,6 +3,10 @@
 Slot::Slot(int id, double price, int capacity)
     : slotID(id), price(price), state("Inactive"), maxCapacity(capacity) {}
 
+// testing constructor
+Slot::Slot(int id, double price, int capacity, std::vector<Beverage> beverages) 
+: slotID(id), price(price), maxCapacity(capacity), beverages(beverages){}
+
 int Slot::getID() const {
     return slotID;
 }

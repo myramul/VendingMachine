@@ -15,6 +15,8 @@ private:
 
 public:
     Slot(int id, double price, int capacity);
+    // testing constructor
+    Slot(int id, double price, int capacity, std::vector<Beverage> beverages);
 
     int getID() const;
     std::vector<Beverage> getBeverages() const;
