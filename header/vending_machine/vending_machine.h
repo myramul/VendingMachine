@@ -44,6 +44,7 @@ public:
     void initializeMachine();
     bool authenticateMaintenancePasscode(const std::string& inputPasscode);
     void onTransactionComplete(const EventData& data);
+    void displayMenu();
 
     // New Maintenance Functions
     void collectMoney();

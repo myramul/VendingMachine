@@ -99,18 +99,16 @@ void VendingMachine::onTransactionComplete(const EventData& data) {
 }
 
 void VendingMachine::collectMoney() {
-    //moneyComponent->collectMoney();
+    moneyComponent->collectMoney();
     std::cout << "Money collected successfully.\n";
 }
 
 void VendingMachine::refillChange() {
-    std::cout << "[TODO] refillChange() not implemented in MoneyHandler yet.\n";
-    // moneyComponent->refillChange();
+    moneyComponent->refillChange();
 }
 
 void VendingMachine::refillBeverages() {
-    std::cout << "[TODO] refillAll() not implemented in DispenserComponent yet.\n";
-    // dispenserComponent->refillAll();
+   dispenserComponent->onRefillBeverages(); 
 }
 
 void VendingMachine::viewReports() {
@@ -118,7 +116,9 @@ void VendingMachine::viewReports() {
     // reportManager->displayReports();
 }
 
-
+void VendingMachine::displayMenu() {
+    dispenserComponent->displayMenu();
+}
 
 /*
 // New maintenance functions

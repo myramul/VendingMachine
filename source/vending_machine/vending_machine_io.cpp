@@ -13,13 +13,8 @@ void VendingMachineIO::displayWelcomeMessage() {
     std::cout << "Welcome to Bug Busters Vending Machine!\n";
     std::cout << "We accept: Nickels ($0.05), Dimes ($0.10) and Quarters ($0.25).\n";
 
-    // CALL THE DISPLAY MENU FUNCTION FROM THE DISPENSER FOR THIS PART
-    std::cout << "Available Beverages:\n";
-
-    std::cout << "1. Cola - $1.00\n";
-    std::cout << "2. Water - $0.75\n";
-    std::cout << "3. Juice - $1.25\n";
-    std::cout << "Press [Enter] to continue or type maintenance password:\n";
+    vendingMachine->displayMenu();
+    std::cout << "Press [Enter] to continue \nor type maintenance password:\n";
 
     std::string input;
     std::getline(std::cin, input);

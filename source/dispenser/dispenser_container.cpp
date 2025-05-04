@@ -119,6 +119,10 @@ void DispenserContainer::collectItem() {
     eventManager->notify(EventType::TransactionComplete, {});
 }
 
+void DispenserContainer::displayMenu() {
+    io.displayMenu(storage);
+}
+
 std::string DispenserContainer::getState() const {
     switch (state) {
         case DispenserState::Idle: return "Idle";

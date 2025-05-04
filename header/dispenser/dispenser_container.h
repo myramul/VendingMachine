@@ -42,6 +42,8 @@ public:
     void setDispensedBeverage();
     void collectItem();
 
+    void displayMenu();
+
     std::string getState() const;
     std::vector<Slot>& getStorage(); 
 };
