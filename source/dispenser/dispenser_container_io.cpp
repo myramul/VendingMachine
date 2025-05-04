@@ -1,4 +1,5 @@
 #include "dispenser/dispenser_container_io.h"
+#include <limits>
 #include <iostream>
 
 DispenserContainerIO::DispenserContainerIO(DispenserContainer* owner) : owner(owner) {}
