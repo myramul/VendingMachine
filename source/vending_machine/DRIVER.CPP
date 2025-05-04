@@ -70,7 +70,6 @@ int main(){
     ReportManager reportManager;
 
     // CREATING MONEY
-    
     CollectedCoin collectedCoin(&eventManager);
     CoinReturn coinReturn(&eventManager);
     CoinSlot coinSlot(&eventManager, &collectedCoin, 1.00, &coinReturn);
@@ -80,7 +79,6 @@ int main(){
 
     // CREATING DISPENSER
     DispenserContainer dispenserContainer(&eventManager);
-    dispenserContainer.displayMenu();
 
 
     // CREATING VENDING MACHINE
