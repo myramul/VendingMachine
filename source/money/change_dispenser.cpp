@@ -1,5 +1,7 @@
 // change_dispenser.cpp
 #include "money/change_dispenser.h"
+#include <cmath>
+
 
 ChangeDispenser::ChangeDispenser(EventManager* eventManager, ChangeDrawer* changeDrawer) :
     eventManager(eventManager), total_change(0.0), changeDrawer(changeDrawer), io(this) {

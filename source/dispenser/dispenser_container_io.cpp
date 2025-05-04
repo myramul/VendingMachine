@@ -43,13 +43,12 @@ int DispenserContainerIO::handleSelectionInput(const std::vector<Slot>& storage)
                 continue;
             }
     
-            std::cout << "You selected: " << chosenSlot.getFrontBeverage().getName() << "\n";
             return selection - 1;  
         }
 }
 
 void DispenserContainerIO::displaySelectedBeverage(const Beverage& beverage, double price)  {
-        std::cout << "You selected: " << beverage.getName() << " - Price: $" << price << "\n";
+        std::cout << "You selected: " << beverage.getName() << " Price: $" << price << "\n";
     }
     
 
