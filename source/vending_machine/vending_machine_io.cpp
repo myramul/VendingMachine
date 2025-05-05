@@ -38,7 +38,7 @@ void VendingMachineIO::displayMaintenanceMenu() {
     std::cout << "1. Collect Money\n";
     std::cout << "2. Refill Change\n";
     std::cout << "3. Refill Beverages\n";
-    std::cout << "4. View Reports\n";
+    std::cout << "4. View Transaction Log Report\n";
     std::cout << "5. Exit Maintenance Mode\n";
 }
 

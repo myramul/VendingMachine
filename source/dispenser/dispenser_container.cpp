@@ -55,6 +55,7 @@ void DispenserContainer::dispenseBeverage(const Beverage& beverage) {
                 data.inserted_amount = insertedAmount;
                 data.beverage_cost = slot.getPrice();
                 data.slotID = slot.getID();
+                data.beverage_name = beverage.getName();
 
                 eventManager->notify(EventType::BeverageDispensed, data);
                 return;

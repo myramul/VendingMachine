@@ -21,6 +21,4 @@ void CollectedCoin::onCollectMoney() {
     coin_storage["QUARTER"] = 0;
     coin_storage["DIME"] = 0;
     coin_storage["NICKEL"] = 0;
-
-    std::cout << "/n/nmoney collected, new total value: $" << total_value << std::endl;
 }

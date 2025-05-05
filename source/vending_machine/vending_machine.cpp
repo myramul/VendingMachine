@@ -35,17 +35,6 @@ void VendingMachine::enterMaintenanceMode() {
     setState(VendingMachineState::Maintenance);
     std::cout << "Machine is now in maintenance mode.\n";
 
-    /*
-    // Log maintenance opening
-    if (reportManager && moneyComponent && dispenserComponent) {
-        auto changeLevels = moneyComponent->getChangeLevels();
-        double moneyCollected = moneyComponent->getTotalMoney();
-        auto slotContents = dispenserComponent->getSlotContents();
-
-        reportManager->logMaintenanceOpening(changeLevels, moneyCollected, slotContents);
-    }
-    */
-
     EventData data;
     data.message = "Entering Maintenance Mode";
     eventManager->notify(EventType::MaintenanceMode, data);
@@ -112,8 +101,7 @@ void VendingMachine::refillBeverages() {
 }
 
 void VendingMachine::viewReports() {
-    std::cout << "[TODO] displayReports() not implemented in ReportManager yet.\n";
-    // reportManager->displayReports();
+    reportManager->displayReports();
 }
 
 void VendingMachine::displayMenu() {
@@ -123,25 +111,3 @@ void VendingMachine::displayMenu() {
 void VendingMachine::startMachine(){
     io.displayWelcomeMessage();
 }
-
-/*
-// New maintenance functions
-void VendingMachine::collectMoney() {
-    moneyComponent->collectMoney();
-    std::cout << "Money collected successfully.\n";
-}
-
-void VendingMachine::refillChange() {
-    moneyComponent->refillChange();
-    std::cout << "Change refilled successfully.\n";
-}
-
-void VendingMachine::refillBeverages() {
-    dispenserComponent->refillAll();
-    std::cout << "Beverages refilled successfully.\n";
-}
-
-void VendingMachine::viewReports() {
-    reportManager->displayReports();
-}
-*/

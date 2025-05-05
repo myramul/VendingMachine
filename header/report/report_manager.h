@@ -7,20 +7,11 @@
 
 class ReportManager {
 public:
-
     void logTransaction(const std::string &beverage, double moneyInserted, double changeGiven);
-
-    void logMaintenanceOpening(const std::map<std::string, int> &changeLevels,
-                               double moneyCollected,
-                               const std::map<int, std::vector<std::string>> &slotContents);
-
-
-    void logClosingReport(const std::map<std::string, int> &changeLevels,
-                          double moneyCollected,
-                          const std::map<int, std::vector<std::string>> &slotContents);
+    void displayReports();
 
 private:
-
+    void writeToFile(const std::string& message);
     std::string getCurrentDateTime();
 };
 
